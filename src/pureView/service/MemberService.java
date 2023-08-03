@@ -1,9 +1,11 @@
 
 package pureView.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import pureView.exception.MemberException;
+import pureView.exception.RecordNotFoundException;
 import pureView.dto.MemberDto;
 
 public interface MemberService {
@@ -14,10 +16,8 @@ public interface MemberService {
 	  public void update(MemberDto m) throws MemberException;
 	  //삭제
 	  public void delete(String id) throws MemberException;
-	  //갯수
-	  public int count() throws MemberException;
-	  //목록
-	  public List<MemberDto> read() throws MemberException;
 	  //검색
 	  public MemberDto findById(String id) throws MemberException;
+	  
+	  
 }

@@ -49,28 +49,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
-	@Override
-	public int count() throws MemberException {
-		// TODO Auto-generated method stub
-		try {
-			return memberDao.count();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
-	}
 
-	@Override
-	public List<MemberDto> read() throws MemberException {
-		// TODO Auto-generated method stub
-		try {
-			memberDao.read();
-		} catch (SQLException e) {
-			throw new MemberException(e.getMessage());
-		}
-		return null;
-	}
 
 	@Override
 	public MemberDto findById(String id) throws MemberException {
@@ -84,8 +63,5 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return null;
 	}
-	
-		
-
 	
 }
