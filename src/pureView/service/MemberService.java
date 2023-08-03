@@ -1,5 +1,5 @@
 package pureView.service;
 
-public class memberService {
+public class MemberService {
 
 }

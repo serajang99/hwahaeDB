@@ -1,5 +1,5 @@
 package pureView.dao;
 
-public class memberDao {
+public class MemberDao {
 
 }

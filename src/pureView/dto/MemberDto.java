@@ -1,5 +1,5 @@
 package pureView.dto;
 
-public class memberDto {
+public class MemberDto {
 
 }
