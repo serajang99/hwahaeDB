@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CosmeticDao {
 	// 목록
-	public List<CosmeticDto> list(String cate, int ob) throws SQLException;
+	public List<CosmeticDto> list(String cate, String ob) throws SQLException;
 }
