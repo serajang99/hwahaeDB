@@ -9,7 +9,7 @@ import pureView.exception.RecordNotFoundException;
 
 public interface CommentDao {
 	// 등록
-	public void add(CommentDto dto) throws SQLException, DuplicatedIdException;
+	public void add(CommentDto dto) throws SQLException;
 
 	// 수정
 	public void update(CommentDto dto) throws SQLException, RecordNotFoundException;
