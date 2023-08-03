@@ -3,14 +3,16 @@ package pureView;
 import java.util.List;
 import java.util.Scanner;
 
-import pureView.dao.BoardException;
 import pureView.dao.RecordNotFoundException;
+import pureView.exception.RecordNotFoundException;
+import pureView.dao.BoardException;
 import pureView.dto.BoardDto;
 import pureView.service.BoardService;
 import pureView.service.BoardServiceImpl;
 import pureView.dto.CommentDto;
 import pureView.exception.CommentException;
 import pureView.service.CommentService;
+import pureView.service.CommentServiceImpl;
 
 
 
@@ -67,9 +69,9 @@ public class pureViewUi {
 		} else if (menu == 10) {
 			addComment();
 		} else if (menu == 11) {
-			
+			updateComment();
 		} else if (menu == 12) {
-			
+			// deleteComment();
 		} else {
 			System.exit(0);
 		}
@@ -159,6 +161,8 @@ public class pureViewUi {
 		
 	}
 
+	// Comment
+	// (10) 댓글 등록
 	private void addComment() {
 		System.out.println("** 댓글 등록 **");
 		System.out.println("게시물 번호를 입력하세요 >> ");
@@ -171,7 +175,24 @@ public class pureViewUi {
 		try {
 			cmtSvc.add(dto);
 		} catch (CommentException e) {
-			System.out.println("댓글 등록 오류");
+			System.out.println("댓글 등록 오류입니다.");
+		}
+	}
+	
+	// (11) 댓글 수정
+	private void updateComment() {
+		System.out.println("수정하고 싶은 댓글 번호를 입력하세요 >> ");
+		int no = Integer.parseInt(sc.nextLine());
+		System.out.println("새로운 내용을 입력하세요 >> ");
+		String content = sc.nextLine();
+		CommentDto dto = new CommentDto(no, 0, null, content, null);
+		try {
+			cmtSvc.update(dto);
+		} catch (CommentException e) {
+			e.printStackTrace();
+			System.out.println("댓글 수정 오류입니다.");
+		} catch (RecordNotFoundException e) {
+			System.out.println("댓글을 찾을 수 없습니다.");
 		}
 	}
 	

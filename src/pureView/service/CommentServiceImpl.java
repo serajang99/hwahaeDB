@@ -1,4 +1,4 @@
-package pureView;
+package pureView.service;
 
 import java.sql.SQLException;
 
@@ -7,7 +7,6 @@ import pureView.dao.CommentDaoImpl;
 import pureView.dto.CommentDto;
 import pureView.exception.CommentException;
 import pureView.exception.RecordNotFoundException;
-import pureView.service.CommentService;
 
 public class CommentServiceImpl implements CommentService {
 	
@@ -30,6 +29,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public boolean update(CommentDto dto) throws CommentException, RecordNotFoundException {
+		try {
+			commentDao.update(dto);
+		} catch (SQLException e) {
+			throw new CommentException(e.getMessage());
+		} catch (RecordNotFoundException e) {
+			throw new RecordNotFoundException(e.getMessage());
+		}
 		return false;
 	}
 
