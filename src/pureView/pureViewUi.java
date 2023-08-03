@@ -3,10 +3,10 @@ package pureView;
 import java.util.List;
 import java.util.Scanner;
 
-
 import pureView.exception.MemberException;
 import pureView.dto.MemberDto;
 import pureView.service.MemberService;
+import pureView.service.MemberServiceImpl;
 import pureView.exception.RecordNotFoundException;
 import pureView.dto.BoardDto;
 import pureView.service.BoardService;
@@ -17,25 +17,23 @@ import pureView.exception.CommentException;
 import pureView.service.CommentService;
 import pureView.service.CommentServiceImpl;
 
-
 public class pureViewUi {
 	private Scanner sc;
 
 	private BoardService brdSvc;
 	private CommentService cmtSvc;
 	private MemberService mbSvc; // 회원 서비스
+
 	public static void main(String[] args) {
 		new pureViewUi().go();
 	}
-
-
 
 	private void init() {
 		sc = new Scanner(System.in);
 		brdSvc = new BoardServiceImpl();
 		cmtSvc = new CommentServiceImpl();
+		mbSvc = new MemberServiceImpl();
 	}
-
 
 	private void go() {
 		init();
@@ -80,7 +78,6 @@ public class pureViewUi {
 		}
 	}
 
-
 	private void addMember() {
 		System.out.println("** 회원 가입 **");
 		System.out.println("이름을 입력하세요 : ");
@@ -93,28 +90,26 @@ public class pureViewUi {
 		int age = sc.nextInt();
 		System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1) : ");
 		String skin_type = sc.nextLine();
-		
-		
-		// 번호(시퀀스), 제목, 작성자, 등록일, 내용 
-		MemberDto dto = new MemberDto(id,name,passwd,skin_type,age);
+
+		// 번호(시퀀스), 제목, 작성자, 등록일, 내용
+		MemberDto dto = new MemberDto(id, name, passwd, skin_type, age);
 		try {
 			mbSvc.add(dto);
 		} catch (MemberException e) {
 			System.out.println("회원 등록 오류");
 		}
 	}
-	
 
 	private void deleteBoard() {
 		System.out.println("삭제하고 싶은 게시물 번호 입력하세요");
 		int no = Integer.parseInt(sc.nextLine());
 		try {
 			brdSvc.delete(no);
-			System.out.println(no+"가 삭제되었습니다.");
+			System.out.println(no + "가 삭제되었습니다.");
 		} catch (BoardException e) {
 			System.out.println("---게시판 서버 오류---");
 		} catch (RecordNotFoundException e) {
-			System.out.println(no+"번호 게시판이 없습니다");
+			System.out.println(no + "번호 게시판이 없습니다");
 		}
 
 	}
@@ -125,18 +120,18 @@ public class pureViewUi {
 		try {
 			BoardDto dto = brdSvc.read(BoardNum);
 			System.out.println("** 상세보기 **");
-			System.out.println("번호: "+dto.getBoardNum());
-			System.out.println("현재제목: "+dto.getBoardTitle());
+			System.out.println("번호: " + dto.getBoardNum());
+			System.out.println("현재제목: " + dto.getBoardTitle());
 			System.out.println("바꾸려는 제목입력(안바꾸려면 엔터): ");
 			String title = sc.nextLine();
-			title = title.length()==0?dto.getBoardTitle():title;
+			title = title.length() == 0 ? dto.getBoardTitle() : title;
 			dto.setBoardTitle(title);
-			System.out.println("작성자Id: "+dto.getMemberId());
-			System.out.println("작성일: "+dto.getWriteTime());
-			System.out.println("현재내용: "+dto.getBoardContent());
+			System.out.println("작성자Id: " + dto.getMemberId());
+			System.out.println("작성일: " + dto.getWriteTime());
+			System.out.println("현재내용: " + dto.getBoardContent());
 			System.out.println("바꾸려는 내용입력(안바꾸려면 엔터): ");
 			String content = sc.nextLine();
-			content = content.length()==0?dto.getBoardContent():content;
+			content = content.length() == 0 ? dto.getBoardContent() : content;
 			dto.setBoardContent(content);
 			brdSvc.update(dto);
 		} catch (BoardException e) {
