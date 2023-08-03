@@ -91,12 +91,12 @@ public class pureViewUi {
 			System.out.println("보고 싶은 제품군을 번호로 작성해주세요");
 			String[] category = {"스킨/토너", "세럼/앰플", "로션/크림", "전체"};
 			System.out.println("(1)스킨/토너 (2)세럼/앰플 (3)로션/크림 (4)전체");
-			String c = category[Integer.parseInt(sc.nextLine())];
+			String c = category[Integer.parseInt(sc.nextLine())-1];
 			
 			System.out.println("정렬 기준을 번호로 작성해주세요");
 			System.out.println("(1)이름 (2)가격 (3)용량");
-			int[] orderBy = {2, 4, 6};
-			int ob = orderBy[Integer.parseInt(sc.nextLine())-1];
+			String[] orderBy = {"cosnum", "price", "volume"};
+			String ob = orderBy[Integer.parseInt(sc.nextLine())-1];
 			
 			list = csmtSvc.list(c, ob);			
 			for (CosmeticDto dto : list) {

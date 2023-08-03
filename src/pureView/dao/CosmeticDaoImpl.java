@@ -10,7 +10,7 @@ import pureView.util.JdbcUtil;
 public class CosmeticDaoImpl implements CosmeticDao {
 
 	@Override
-	public List<CosmeticDto> list(String cate, int ob) throws SQLException {
+	public List<CosmeticDto> list(String cate, String ob) throws SQLException {
 		List<CosmeticDto> result = new ArrayList<CosmeticDto>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -21,12 +21,14 @@ public class CosmeticDaoImpl implements CosmeticDao {
 				sql = "SELECT * FROM COSMETICS WHERE CATEGORY=? ORDER BY ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, cate);
-				pstmt.setInt(2, ob);
+				pstmt.setString(2, ob);
 			}
 			else {
-				sql = "SELECT * FROM COSMETICS ORDER BY COSNUM ORDER BY ?";
+				System.out.println(cate);
+				System.out.println(ob);
+				sql = "SELECT * FROM COSMETICS ORDER BY ?";
 				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, ob);
+				pstmt.setString(1, ob);
 			}
 
 			
