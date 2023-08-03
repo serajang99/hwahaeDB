@@ -2,9 +2,9 @@ package pureView.service;
 
 import java.util.List;
 
-import pureView.dao.BoardException;
-import pureView.dao.RecordNotFoundException;
+import pureView.exception.RecordNotFoundException;
 import pureView.dto.BoardDto;
+import pureView.exception.BoardException;
 
 public interface BoardService {
 	//게시물 추가

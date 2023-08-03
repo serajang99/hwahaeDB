@@ -1,4 +1,4 @@
-package pureView.dao;
+package pureView.exception;
 
 public class BoardException extends Exception {
 	public BoardException() {

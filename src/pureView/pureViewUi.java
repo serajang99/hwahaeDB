@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import pureView.exception.RecordNotFoundException;
-import pureView.dao.BoardException;
 import pureView.dto.BoardDto;
 import pureView.service.BoardService;
 import pureView.service.BoardServiceImpl;
 import pureView.dto.CommentDto;
+import pureView.exception.BoardException;
 import pureView.exception.CommentException;
 import pureView.service.CommentService;
 import pureView.service.CommentServiceImpl;
@@ -58,9 +58,9 @@ public class pureViewUi {
 		} else if (menu == 7) {
 
 		} else if (menu == 8) {
-//			updateBoard();
+			updateBoard();
 		} else if (menu == 9) {
-//			deleteBoard();
+			deleteBoard();
 		} else if (menu == 10) {
 			addComment();
 		} else if (menu == 11) {
@@ -69,6 +69,47 @@ public class pureViewUi {
 			deleteComment();
 		} else {
 			System.exit(0);
+		}
+	}
+
+	private void deleteBoard() {
+		System.out.println("삭제하고 싶은 게시물 번호 입력하세요");
+		int no = Integer.parseInt(sc.nextLine());
+		try {
+			brdSvc.delete(no);
+			System.out.println(no+"가 삭제되었습니다.");
+		} catch (BoardException e) {
+			System.out.println("---게시판 서버 오류---");
+		} catch (RecordNotFoundException e) {
+			System.out.println(no+"번호 게시판이 없습니다");
+		}
+	}
+
+	private void updateBoard() {
+		System.out.println("수정할려는 게시물 번호를 입력하세요 >> ");
+		int BoardNum = Integer.parseInt(sc.nextLine());
+		try {
+			BoardDto dto = brdSvc.read(BoardNum);
+			System.out.println("** 상세보기 **");
+			System.out.println("번호: "+dto.getBoardNum());
+			System.out.println("현재제목: "+dto.getBoardTitle());
+			System.out.println("바꾸려는 제목입력(안바꾸려면 엔터): ");
+			String title = sc.nextLine();
+			title = title.length()==0?dto.getBoardTitle():title;
+			dto.setBoardTitle(title);
+			System.out.println("작성자Id: "+dto.getMemberId());
+			System.out.println("작성일: "+dto.getWriteTime());
+			System.out.println("현재내용: "+dto.getBoardContent());
+			System.out.println("바꾸려는 내용입력(안바꾸려면 엔터): ");
+			String content = sc.nextLine();
+			content = content.length()==0?dto.getBoardContent():content;
+			dto.setBoardContent(content);
+			brdSvc.update(dto);
+		} catch (BoardException e) {
+			e.printStackTrace();
+			System.out.println("--- 게시판 서버 오류입니다 ---");
+		} catch (RecordNotFoundException e) {
+			System.out.println("없는 게시물입니다");
 		}
 	}
 
@@ -88,7 +129,7 @@ public class pureViewUi {
 		try {
 			brdSvc.add(dto);
 		} catch (BoardException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			System.out.println("게시물 등록 오류");
 		}
 	}
