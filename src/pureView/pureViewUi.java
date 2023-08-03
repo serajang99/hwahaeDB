@@ -3,13 +3,12 @@ package pureView;
 import java.util.List;
 import java.util.Scanner;
 
-import pureView.dao.RecordNotFoundException;
 import pureView.exception.RecordNotFoundException;
-import pureView.dao.BoardException;
 import pureView.dto.BoardDto;
 import pureView.service.BoardService;
 import pureView.service.BoardServiceImpl;
 import pureView.dto.CommentDto;
+import pureView.exception.BoardException;
 import pureView.exception.CommentException;
 import pureView.service.CommentService;
 import pureView.service.CommentServiceImpl;

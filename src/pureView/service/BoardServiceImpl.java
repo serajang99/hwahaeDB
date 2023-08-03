@@ -3,12 +3,12 @@ package pureView.service;
 import java.sql.SQLException;
 import java.util.List;
 
-import pureView.dao.BoardException;
-import pureView.dao.DuplicatedIdException;
-import pureView.dao.RecordNotFoundException;
+import pureView.exception.DuplicatedIdException;
+import pureView.exception.RecordNotFoundException;
 import pureView.dao.BoardDao;
 import pureView.dao.BoardDaoImpl;
 import pureView.dto.BoardDto;
+import pureView.exception.BoardException;
 
 public class BoardServiceImpl implements BoardService {
 	
