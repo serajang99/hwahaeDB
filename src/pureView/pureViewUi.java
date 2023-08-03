@@ -44,8 +44,8 @@ public class pureViewUi {
 		sc = new Scanner(System.in);
 		brdSvc = new BoardServiceImpl();
 		cmtSvc = new CommentServiceImpl();
-    csmtSvc = new CosmeticServiceImpl();
-    mbSvc = new MemberServiceImpl();
+	    csmtSvc = new CosmeticServiceImpl();
+	    mbSvc = new MemberServiceImpl();
 		logSvc = new LogServiceImpl();
 	}
 
@@ -223,10 +223,15 @@ public class pureViewUi {
 		System.out.println("비밀번호를 입력하세요 : ");
 		String passwd = sc.nextLine();
 		System.out.println("나이를 입력하세요 : ");
-		int age = sc.nextInt();
-		System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1) : ");
-		String skin_type = sc.nextLine();
-
+		int age = Integer.parseInt(sc.nextLine());
+		String skin_type = "";
+		while(true) {
+			System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1) : ");
+			skin_type = sc.nextLine();
+			if("건성".equals(skin_type) || "지성".equals(skin_type) || "복합성".equals(skin_type)) {
+				break;
+			}
+		}
 		// 번호(시퀀스), 제목, 작성자, 등록일, 내용
 		MemberDto dto = new MemberDto(id, name, passwd, skin_type, age);
 		try {
@@ -240,27 +245,29 @@ public class pureViewUi {
 	private void updateMember() {
 		System.out.println("수정할 회원 정보의 아이디를 입력하세요>> ");
 		String id = (sc.nextLine());
-		
+		MemberDto dto = null;
 			try {
-				MemberDto dto = mbSvc.findById(id);
+				dto = mbSvc.findById(id);
+				System.out.println(mbSvc.findById(id));
+				System.out.println(dto);
 				System.out.println("** 상세보기 **");
-				System.out.println("수정할 아이디 : "+dto.getId());
-				String id_2 = sc.nextLine();
-				id_2 = id_2.length()==0?dto.getId():id_2;
-				System.out.println("수정할 이름 : "+dto.getName());
+//				System.out.println("수정할 아이디 (없으면 엔터) : ");
+//				String id_2 = sc.nextLine();
+//				id_2 = id_2.length()==0?dto.getId():id_2;
+				System.out.println("수정할 이름 (없으면 엔터): ");
 				String name_2 = sc.nextLine();
 				name_2 = name_2.length()==0?dto.getName():name_2;
-				System.out.println("수정할 비밀번호 : "+dto.getPasswd());
+				System.out.println("수정할 비밀번호 (없으면 엔터): ");
 				String passwd_2 = sc.nextLine();
 				passwd_2 = passwd_2.length()==0?dto.getPasswd():passwd_2;
-				System.out.println("수정할 피부타입 : "+dto.getSkintype());
+				System.out.println("수정할 피부타입 (없으면 엔터) : ");
 				String skin_type_2 = sc.nextLine();
 				skin_type_2 =skin_type_2.length()==0?dto.getSkintype():skin_type_2;
-				System.out.println("수정할 나이 : "+dto.getAge());
+				System.out.println("수정할 나이 (없으면 엔터) : ");
 				String age_2 = sc.nextLine();
 				int age_3=0;
 				age_3 = age_2.length()==0?dto.getAge():Integer.parseInt(age_2);
-				dto.setId(id_2);
+				dto.setId(id);
 				dto.setName(name_2);
 				dto.setPasswd(passwd_2);
 				dto.setSkintype(age_2);

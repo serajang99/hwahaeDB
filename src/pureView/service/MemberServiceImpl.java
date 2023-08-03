@@ -54,14 +54,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberDto findById(String id) throws MemberException {
 		// TODO Auto-generated method stub
+		MemberDto dto = null;
 		try {
-			memberDao.findById(id);
+			dto = memberDao.findById(id);
 		} catch (SQLException e) {
 			throw new MemberException(e.getMessage());
 		} catch (RecordNotFoundException e) {
 			throw new MemberException(e.getMessage());
 		}
-		return null;
+		return dto;
 	}
 	
 }
