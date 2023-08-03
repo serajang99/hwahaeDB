@@ -61,7 +61,7 @@ public class pureViewUi {
 		} else if (menu == 3) {
 			cosmeticsList();
 		} else if (menu == 4) {
-
+			cosmeticsDetail();
 		} else if (menu == 5) {
 			listBoard();
 		} else if (menu == 6) {
@@ -105,6 +105,15 @@ public class pureViewUi {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("잘못된 입력입니다");
 		}
+	}
+	
+	private void cosmeticsDetail() {
+		System.out.println("성분이 궁금하신 화장품 이름을 작성해주세요");
+		CosmeticDto result;
+		String search = sc.nextLine();
+		result = csmtSvc.detail(search);
+		if (result != null)
+			System.out.println(result);
 	}
 	
 	private void listDetailBoard() {
