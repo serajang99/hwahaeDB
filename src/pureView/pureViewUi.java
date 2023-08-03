@@ -56,7 +56,7 @@ public class pureViewUi {
 		} else if (menu == 6) {
 			addBoard();
 		} else if (menu == 7) {
-
+			listDetailBoard();
 		} else if (menu == 8) {
 			updateBoard();
 		} else if (menu == 9) {
@@ -72,6 +72,26 @@ public class pureViewUi {
 		}
 	}
 
+	private void listDetailBoard() {
+		List<CommentDto> commentList = null;
+		System.out.println("리뷰를 볼 게시물 번호를 입력하세요>> ");
+		int BoardNum = Integer.parseInt(sc.nextLine());
+		
+		try {
+			BoardDto dto = brdSvc.read(BoardNum);
+			System.out.println("** 게시판 상세보기 **");
+			System.out.println(dto.getBoardNum() + "      " + dto.getBoardTitle() + "      " + dto.getBoardContent()
+			+ "      " + dto.getWriteTime() + "      " + dto.getStarRating() + "      " + dto.getMemberId()
+			+ "      " + dto.getCosNum());
+		} catch (BoardException e) {
+			System.out.println("---게시판 서버 오류---");
+		} catch (RecordNotFoundException e) {
+			System.out.println("없는 게시물입니다.");
+		}
+		
+		
+	}
+
 	private void deleteBoard() {
 		System.out.println("삭제하고 싶은 게시물 번호 입력하세요");
 		int no = Integer.parseInt(sc.nextLine());
@@ -84,7 +104,7 @@ public class pureViewUi {
 			System.out.println(no+"번호 게시판이 없습니다");
 		}
 	}
-
+	
 	private void updateBoard() {
 		System.out.println("수정할려는 게시물 번호를 입력하세요 >> ");
 		int BoardNum = Integer.parseInt(sc.nextLine());
