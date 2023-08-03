@@ -101,8 +101,8 @@ public class CommentDaoImpl implements CommentDao {
 		List<CommentDto> result = new ArrayList<CommentDto>(); // ArrayList의 상위 타입인 List로 반환
 		try {
 			conn = JdbcUtil.connect();
-			String sql = "SELECT * FROM CMNT order by num DESC "
-					+ "WHERE boardNum = ?";
+			String sql = "SELECT * FROM CMNT  "
+					+ " WHERE boardNum = ? order by num DESC ";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, no);

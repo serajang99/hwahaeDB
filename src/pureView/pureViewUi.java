@@ -94,6 +94,17 @@ public class pureViewUi {
 		} catch (RecordNotFoundException e) {
 			System.out.println("없는 게시물입니다.");
 		}
+		
+		try {
+			commentList = cmtSvc.list(BoardNum);
+			for (CommentDto dto : commentList) {
+				System.out.println(dto.getNum() + "      " + dto.getContent() + "      " + dto.getCommentTime()
+						+ "      " + dto.getMemberId() + "      " + dto.getBoardNum());
+			}
+		} catch (BoardException e) {
+			System.out.println("*** 서버에 오류가 발생 ***");
+		}
+		
 	}	
 		
 	private void addMember() {

@@ -1,10 +1,13 @@
 package pureView.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import pureView.dao.CommentDao;
 import pureView.dao.CommentDaoImpl;
+import pureView.dto.BoardDto;
 import pureView.dto.CommentDto;
+import pureView.exception.BoardException;
 import pureView.exception.CommentException;
 import pureView.exception.RecordNotFoundException;
 
@@ -55,6 +58,18 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public int count() throws CommentException {
 		return 0;
+	}
+
+	@Override
+	public List<CommentDto> list(int no) throws BoardException {
+		List<CommentDto> list = null;
+		try {
+			list = commentDao.list(no);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new BoardException(e.getMessage());
+		}
+		return list;
 	}
 
 }
