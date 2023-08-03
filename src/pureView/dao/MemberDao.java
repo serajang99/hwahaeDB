@@ -1,3 +1,4 @@
+
 package pureView.dao;
 
 import java.sql.SQLException;
@@ -20,3 +21,4 @@ public interface MemberDao{
 	  //검색
 	  public MemberDto findById(String id) throws SQLException,RecordNotFoundException;
 }
+

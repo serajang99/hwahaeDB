@@ -1,6 +1,7 @@
 package pureView.dto;
 
 public class MemberDto {
+
 	private String id, name, passwd,skintype;
 	private int age;
 	public MemberDto(String id, String name, String passwd, String skintype, int age) {
