@@ -68,7 +68,24 @@ public class CommentDaoImpl implements CommentDao {
 
 	@Override
 	public void delete(int no) throws SQLException, RecordNotFoundException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = JdbcUtil.connect();
 
+			String sql = "DELETE FROM CMNT WHERE num = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+
+			int count = pstmt.executeUpdate();
+			System.out.println(count + "행 삭제 완료");
+
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e);
+		} finally {
+			JdbcUtil.close(pstmt, conn);
+		}
 	}
 
 	@Override

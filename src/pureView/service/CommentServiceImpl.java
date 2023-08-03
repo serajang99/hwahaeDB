@@ -41,6 +41,14 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public boolean delete(int no) throws CommentException, RecordNotFoundException {
+		try {
+			CommentDto dto = commentDao.findById(no);
+			if(dto == null) // 해당 번호가 없음
+				throw new RecordNotFoundException();
+			else commentDao.delete(no);
+		} catch (SQLException e) {
+			throw new CommentException(e.getMessage());
+		}
 		return false;
 	}
 

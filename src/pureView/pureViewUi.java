@@ -13,8 +13,6 @@ import pureView.exception.CommentException;
 import pureView.service.CommentService;
 import pureView.service.CommentServiceImpl;
 
-
-
 public class pureViewUi {
 	private Scanner sc;
 
@@ -24,43 +22,41 @@ public class pureViewUi {
 	public static void main(String[] args) {
 		new pureViewUi().go();
 	}
-	
+
 	private void init() {
 		sc = new Scanner(System.in);
 		brdSvc = new BoardServiceImpl();
-    cmtSvc = new CommentServiceImpl();
+		cmtSvc = new CommentServiceImpl();
 	}
-	
+
 	private void go() {
 		init();
 		while (true)
 			mainMenu(); // 메인메뉴 출력
 	}
-	
+
 	private void mainMenu() {
-		System.out.println("메인 메뉴: (0) 회원가입 (1)로그인 (2)로그아웃 "
-				+ "(3)화장품 목록 (4)화장품 상세보기 "
-				+ "(5)리뷰 게시판 목록 (6)리뷰 등록 (7)리뷰 상세보기(댓글 포함) (8)리뷰 수정 (9)리뷰 삭제 "
-				+ "(10)댓글 등록 (11)댓글 수정 (12)댓글 삭제 "
+		System.out.println("메인 메뉴: (0) 회원가입 (1)로그인 (2)로그아웃 " + "(3)화장품 목록 (4)화장품 상세보기 "
+				+ "(5)리뷰 게시판 목록 (6)리뷰 등록 (7)리뷰 상세보기(댓글 포함) (8)리뷰 수정 (9)리뷰 삭제 " + "(10)댓글 등록 (11)댓글 수정 (12)댓글 삭제 "
 				+ "(13)종료");
 		System.out.println("메뉴 선택: ");
 		int menu = Integer.parseInt(sc.nextLine());
 		if (menu == 0) {
-			
+
 		} else if (menu == 1) {
 //			login();
 		} else if (menu == 2) {
 //			logout();
 		} else if (menu == 3) {
-			
+
 		} else if (menu == 4) {
-			
+
 		} else if (menu == 5) {
 			listBoard();
 		} else if (menu == 6) {
 			addBoard();
 		} else if (menu == 7) {
-			
+
 		} else if (menu == 8) {
 //			updateBoard();
 		} else if (menu == 9) {
@@ -70,13 +66,11 @@ public class pureViewUi {
 		} else if (menu == 11) {
 			updateComment();
 		} else if (menu == 12) {
-			// deleteComment();
+			deleteComment();
 		} else {
 			System.exit(0);
 		}
 	}
-	
-	
 
 	private void addBoard() {
 		System.out.println("** 게시물 등록 **");
@@ -102,23 +96,18 @@ public class pureViewUi {
 	private void listBoard() {
 		System.out.println("[게시물 목록]");
 		List<BoardDto> list = null;
-		
+
 		try {
 			list = brdSvc.list();
 			for (BoardDto dto : list) {
-				System.out.println(
-						dto.getBoardNum()+ "      " + 
-						dto.getBoardTitle() + "      " + 
-						dto.getBoardContent() + "      " + 
-						dto.getWriteTime() + "      " +
-						dto.getStarRating() + "      " +
-						dto.getMemberId() + "      " +
-						dto.getCosNum());
+				System.out.println(dto.getBoardNum() + "      " + dto.getBoardTitle() + "      " + dto.getBoardContent()
+						+ "      " + dto.getWriteTime() + "      " + dto.getStarRating() + "      " + dto.getMemberId()
+						+ "      " + dto.getCosNum());
 			}
 		} catch (BoardException e) {
 			System.out.println("*** 서버에 오류가 발생 ***");
 		}
-		
+
 	}
 
 	// Comment
@@ -138,7 +127,7 @@ public class pureViewUi {
 			System.out.println("댓글 등록 오류입니다.");
 		}
 	}
-	
+
 	// (11) 댓글 수정
 	private void updateComment() {
 		System.out.println("수정하고 싶은 댓글 번호를 입력하세요 >> ");
@@ -155,5 +144,18 @@ public class pureViewUi {
 			System.out.println("댓글을 찾을 수 없습니다.");
 		}
 	}
-	
+
+	// (12) 댓글 삭제
+	private void deleteComment() {
+		System.out.println("삭제할 댓글 번호를 입력하세요 >> ");
+		int no = Integer.parseInt(sc.nextLine());
+		try {
+			cmtSvc.delete(no);
+		} catch (CommentException e) {
+			System.out.println("댓글 삭제 오류입니다.");
+		} catch (RecordNotFoundException e) {
+			System.out.println("댓글을 찾을 수 없습니다.");
+		}
+	}
+
 }
