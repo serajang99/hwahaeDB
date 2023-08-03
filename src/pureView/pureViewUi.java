@@ -1,5 +1,6 @@
 package pureView;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,23 +8,30 @@ import java.util.Scanner;
 import pureView.exception.MemberException;
 import pureView.dto.MemberDto;
 import pureView.service.MemberService;
+import pureView.service.MemberServiceImpl;
 import pureView.exception.RecordNotFoundException;
 import pureView.dto.BoardDto;
 import pureView.service.BoardService;
 import pureView.service.BoardServiceImpl;
 import pureView.dto.CommentDto;
+import pureView.dto.LoginDto;
 import pureView.exception.BoardException;
 import pureView.exception.CommentException;
+import pureView.exception.DuplicatedIdException;
+import pureView.exception.LogException;
 import pureView.service.CommentService;
 import pureView.service.CommentServiceImpl;
+import pureView.service.LogService;
+import pureView.service.LogServiceImpl;
 
 
 public class pureViewUi {
 	private Scanner sc;
 
-	private BoardService brdSvc;
-	private CommentService cmtSvc;
+	private BoardService brdSvc; // 보드 서비스
+	private CommentService cmtSvc; // 내용 서비스
 	private MemberService mbSvc; // 회원 서비스
+	private LogService logSvc; // 로그 서비스
 	public static void main(String[] args) {
 		new pureViewUi().go();
 	}
@@ -34,6 +42,8 @@ public class pureViewUi {
 		sc = new Scanner(System.in);
 		brdSvc = new BoardServiceImpl();
 		cmtSvc = new CommentServiceImpl();
+		mbSvc = new MemberServiceImpl();
+		logSvc = new LogServiceImpl();
 	}
 
 
@@ -44,17 +54,30 @@ public class pureViewUi {
 	}
 
 	private void mainMenu() {
-		System.out.println("메인 메뉴: (0) 회원가입 (1)로그인 (2)로그아웃 " + "(3)화장품 목록 (4)화장품 상세보기 "
+		System.out.println("메인 메뉴 : (0) 회원 관리 (1)로그인 (2)로그아웃 " + "(3)화장품 목록 (4)화장품 상세보기 "
 				+ "(5)리뷰 게시판 목록 (6)리뷰 등록 (7)리뷰 상세보기(댓글 포함) (8)리뷰 수정 (9)리뷰 삭제 " + "(10)댓글 등록 (11)댓글 수정 (12)댓글 삭제 "
 				+ "(13)종료");
 		System.out.println("메뉴 선택: ");
 		int menu = Integer.parseInt(sc.nextLine());
 		if (menu == 0) {
-			addMember(); // 회원가입
+			System.out.println("원하시는 기능을 선택하세요 : (0) 회원 가입 (1)회원 정보 수정 (2)회원 삭제 ");
+			System.out.println("기능 선택 : ");
+			int func = Integer.parseInt(sc.nextLine());
+			if(func == 0) {
+				// 회원 가입
+				addMember();
+			}
+			  else if (func == 1) {
+//				// 회원 정보 수정
+				updateMember();
+			} else if (func == 2) {
+//				// 회원 삭제
+				deleteMember();
+			} 
 		} else if (menu == 1) {
-//			login();
+			addLog();
 		} else if (menu == 2) {
-//			logout();
+			updateLog();
 		} else if (menu == 3) {
 
 		} else if (menu == 4) {
@@ -81,6 +104,49 @@ public class pureViewUi {
 	}
 
 
+
+
+
+
+	private void updateLog() {
+		System.out.println("** 로그아웃 **");
+		System.out.println("아이디를 입력하세요 : ");
+		String id = sc.nextLine();		
+		
+		LoginDto dto = new LoginDto(0, null, null, id); 
+
+		try {
+			try {
+				logSvc.update(dto);
+			} catch (RecordNotFoundException e) {
+				
+			}
+		} catch (LogException e) {
+			// TODO Auto-generated catch block
+			System.out.println("로그아웃 오류");
+		}
+	}
+
+
+
+	private void addLog() {
+		System.out.println("** 로그인 **");
+		System.out.println("아이디를 입력하세요 : ");
+		String id = sc.nextLine();		
+		
+		LoginDto dto = new LoginDto(0, null, null, id); 
+
+		try {
+			logSvc.add(dto);
+		} catch (LogException e) {
+			// TODO Auto-generated catch block
+			System.out.println("로그인 오류");
+		}
+
+	}
+
+
+
 	private void addMember() {
 		System.out.println("** 회원 가입 **");
 		System.out.println("이름을 입력하세요 : ");
@@ -104,7 +170,64 @@ public class pureViewUi {
 		}
 	}
 	
+	private void updateMember() {
+		System.out.println("수정할 회원 정보의 아이디를 입력하세요>> ");
+		String id = (sc.nextLine());
+		
+			try {
+				MemberDto dto = mbSvc.findById(id);
+				System.out.println("** 상세보기 **");
+				System.out.println("수정할 아이디 : "+dto.getId());
+				String id_2 = sc.nextLine();
+				id_2 = id_2.length()==0?dto.getId():id_2;
+				System.out.println("수정할 이름 : "+dto.getName());
+				String name_2 = sc.nextLine();
+				name_2 = name_2.length()==0?dto.getName():name_2;
+				System.out.println("수정할 비밀번호 : "+dto.getPasswd());
+				String passwd_2 = sc.nextLine();
+				passwd_2 = passwd_2.length()==0?dto.getPasswd():passwd_2;
+				System.out.println("수정할 피부타입 : "+dto.getSkintype());
+				String skin_type_2 = sc.nextLine();
+				skin_type_2 =skin_type_2.length()==0?dto.getSkintype():skin_type_2;
+				System.out.println("수정할 나이 : "+dto.getAge());
+				String age_2 = sc.nextLine();
+				int age_3=0;
+				age_3 = age_2.length()==0?dto.getAge():Integer.parseInt(age_2);
+				dto.setId(id_2);
+				dto.setName(name_2);
+				dto.setPasswd(passwd_2);
+				dto.setSkintype(age_2);
+				dto.setAge(age_3);
+				mbSvc.update(dto);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MemberException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+	
+	private void deleteMember() {
+		System.out.println("삭제하고 싶은 회원 아이디를 입력하세요");
+		String id = (sc.nextLine());
 
+			try {
+				mbSvc.delete(id);
+				System.out.println(id+"가 삭제되었습니다.");
+			} catch (MemberException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		
+	}
+	
+	
+	
+	
+	
 	private void deleteBoard() {
 		System.out.println("삭제하고 싶은 게시물 번호 입력하세요");
 		int no = Integer.parseInt(sc.nextLine());

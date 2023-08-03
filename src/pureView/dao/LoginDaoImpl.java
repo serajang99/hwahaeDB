@@ -17,6 +17,7 @@ import oracle.sql.DATE;
 
 import pureView.dto.LoginDto;
 import pureView.exception.DuplicatedIdException;
+import pureView.exception.LogException;
 import pureView.exception.RecordNotFoundException;
 import pureView.util.JdbcUtil;
 public class LoginDaoImpl implements LoginDao {
@@ -25,14 +26,14 @@ public class LoginDaoImpl implements LoginDao {
 	// 예외는 부모보다 개수가 같거나 작앙함
 	// 예외 타입은 부모보다 같거나 자식 타입
 	@Override
-	public void add(LoginDto m) throws SQLException, DuplicatedIdException {
+	public void add(LoginDto m) throws SQLException {
 		// DBMS 연결
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
 			// 등록 여부 검사
 			if(findById(m.getMember_id())!=null)
-				throw new DuplicatedIdException(m.getMember_id()+"는 이미 사용중입니다.");
+				throw new SQLException(m.getMember_id()+"는 없는 아이디입니다.");
 			con = JdbcUtil.connect();
 			// 3. SQL 작성
 //			String query = "SELECT sysdate as current_date, TO_CHAR(sysdate, 'HH24:MI:SS') as current_time FROM dual";
@@ -55,12 +56,13 @@ public class LoginDaoImpl implements LoginDao {
 		} catch (ClassNotFoundException e) {
 			// Exception을 감싸는 새로운 Exception을 만든다.
 			throw new SQLException(e);
-		} finally {
+		} 
+		  finally {
 			// 7. 자원 반환
 			JdbcUtil.close(pstmt,con);
 		}
-		
 	}
+	
 
 	@Override
 	public void update(LoginDto m) throws SQLException, RecordNotFoundException {
@@ -157,7 +159,7 @@ public class LoginDaoImpl implements LoginDao {
 	
 
 	@Override
-	public List<LoginDto> read() throws SQLException {
+	public List<LoginDto> read() throws SQLException{
 		
 		List<LoginDto> result = new ArrayList<LoginDto>();
 		

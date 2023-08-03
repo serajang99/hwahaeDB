@@ -125,74 +125,7 @@ public class MemberDaoImpl implements MemberDao{
 
 		}
 
-		@Override
-		public int count() throws SQLException {
-			int cnt=0;
-			//DBMS연결, statement 생성
-	        Connection con = null;
-	        PreparedStatement pstmt = null;
-	        try {
-	            con = JdbcUtil.connect();
-	    		// 3. SQL 작성
-	    		String sql = "SELECT COUNT(*) FROM MEMBER ";
-	    		pstmt = con.prepareStatement(sql);
-	    		// 5. 데이터 설정
-	    		
-	    		// 6. SQL 전송, 결과수신
-	    		//   DML전송: executeUpdate() : int 
-	    		//   SELECT전송: executeQuery() : ResultSet
-	    		ResultSet rs = pstmt.executeQuery();
-	    		rs.next(); //조회결과가 있다
-	    		cnt=rs.getInt(1);
-				
-	        } catch (ClassNotFoundException e) {
-	            throw new SQLException(e);
-	        } finally {
-	            JdbcUtil.close(pstmt, con);
-	        }
-	        return cnt;
-		}
 		
-
-		@Override
-		public List<MemberDto> read() throws SQLException {
-			
-			List<MemberDto> result = new ArrayList<MemberDto>();
-			
-			//DBMS연결, statement 생성
-	        Connection con = null;
-	        PreparedStatement pstmt = null;
-	        try {
-	            con = JdbcUtil.connect();
-	    		// 3. SQL 작성
-	    		String sql = "SELECT * FROM MEMBER ORDER BY id";
-	    		pstmt = con.prepareStatement(sql);
-	    		// 5. 데이터 설정
-	    		
-	    		// 6. SQL 전송, 결과수신
-	    		//   DML전송: executeUpdate() : int 
-	    		//   SELECT전송: executeQuery() : ResultSet
-	    		ResultSet rs = pstmt.executeQuery();
-
-	    		while(rs.next()) {//조회결과가 있다
-	    			String id  = rs.getString("id");
-	    			String name = rs.getString("name");
-	    			String passwd = rs.getString("passwd");
-	    			String skin_type = rs.getString("skintype");
-	    			int age = rs.getInt("age");
-	    			MemberDto dto = new MemberDto(id, name, passwd, skin_type, age);
-	    			result.add(dto);
-	    		}
-	        } catch (ClassNotFoundException e) {
-	            throw new SQLException(e);
-	        } finally {
-	            JdbcUtil.close(pstmt, con);
-	        }
-	        return result;
-		}
-		
-
-		@Override
 		public MemberDto findById(String id) throws SQLException {
 			MemberDto dto = null;
 			//DBMS연결, statement 생성
@@ -201,7 +134,7 @@ public class MemberDaoImpl implements MemberDao{
 	        try {
 	            con = JdbcUtil.connect();
 	    		// 3. SQL 작성
-	    		String sql = "SELECT * FROM MEMBERS where id = ?";
+	    		String sql = "SELECT * FROM MEMBER where id = ?";
 	    		pstmt = con.prepareStatement(sql);
 	    		// 5. 데이터 설정
 	    		pstmt.setString(1, id);
@@ -213,7 +146,7 @@ public class MemberDaoImpl implements MemberDao{
 	    		if(rs.next()) {//조회결과가 있다
 	    			String name = rs.getString("name");
 	    			String passwd = rs.getString("passwd");
-	    			String skin_type = rs.getString("passwd");	    			
+	    			String skin_type = rs.getString("skintype");	    			
 	    			int age = rs.getInt("age");
 	    			dto = new MemberDto(id, name, passwd, skin_type, age);
 	    		}
@@ -224,5 +157,7 @@ public class MemberDaoImpl implements MemberDao{
 	        }
 	        return dto;
 		}
+		
+		
 
 }
