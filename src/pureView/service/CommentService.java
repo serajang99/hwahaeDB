@@ -1,6 +1,9 @@
 package pureView.service;
 
+import java.util.List;
+
 import pureView.dto.CommentDto;
+import pureView.exception.BoardException;
 import pureView.exception.CommentException;
 import pureView.exception.RecordNotFoundException;
 
@@ -20,5 +23,7 @@ public interface CommentService {
 
 	// 댓글 갯수
 	public int count() throws CommentException;
+
+	public List<CommentDto> list(int no) throws BoardException;
 
 }
