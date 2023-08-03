@@ -12,16 +12,20 @@ import pureView.dto.BoardDto;
 import pureView.service.BoardService;
 import pureView.service.BoardServiceImpl;
 import pureView.dto.CommentDto;
+import pureView.dto.CosmeticDto;
 import pureView.exception.BoardException;
 import pureView.exception.CommentException;
 import pureView.service.CommentService;
 import pureView.service.CommentServiceImpl;
+import pureView.service.CosmeticService;
+import pureView.service.CosmeticServiceImpl;
 
 public class pureViewUi {
 	private Scanner sc;
 
 	private BoardService brdSvc;
 	private CommentService cmtSvc;
+	private CosmeticService csmtSvc;
 	private MemberService mbSvc; // 회원 서비스
 
 	public static void main(String[] args) {
@@ -32,6 +36,7 @@ public class pureViewUi {
 		sc = new Scanner(System.in);
 		brdSvc = new BoardServiceImpl();
 		cmtSvc = new CommentServiceImpl();
+		csmtSvc = new CosmeticServiceImpl();
 		mbSvc = new MemberServiceImpl();
 	}
 
@@ -54,7 +59,7 @@ public class pureViewUi {
 		} else if (menu == 2) {
 //			logout();
 		} else if (menu == 3) {
-
+			cosmeticsList();
 		} else if (menu == 4) {
 
 		} else if (menu == 5) {
@@ -78,6 +83,30 @@ public class pureViewUi {
 		}
 	}
 
+	private void cosmeticsList() {
+		System.out.println("[화장품 목록]");
+		List<CosmeticDto> list;
+		
+		try {
+			System.out.println("보고 싶은 제품군을 번호로 작성해주세요");
+			String[] category = {"스킨/토너", "세럼/앰플", "로션/크림", "전체"};
+			System.out.println("(1)스킨/토너 (2)세럼/앰플 (3)로션/크림 (4)전체");
+			String c = category[Integer.parseInt(sc.nextLine())];
+			
+			System.out.println("정렬 기준을 번호로 작성해주세요");
+			System.out.println("(1)이름 (2)가격 (3)용량");
+			int[] orderBy = {2, 4, 6};
+			int ob = orderBy[Integer.parseInt(sc.nextLine())-1];
+			
+			list = csmtSvc.list(c, ob);			
+			for (CosmeticDto dto : list) {
+				System.out.println(dto);
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("잘못된 입력입니다");
+		}
+	}
+	
 	private void listDetailBoard() {
 		List<CommentDto> commentList = null;
 		System.out.println("리뷰를 볼 게시물 번호를 입력하세요>> ");
