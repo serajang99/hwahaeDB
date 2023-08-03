@@ -168,5 +168,4 @@ public class BoardDaoImpl implements BoardDao {
 		return dto;
 	}
 
-
 }
