@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -94,8 +95,34 @@ public class CommentDaoImpl implements CommentDao {
 	}
 
 	@Override
-	public List<CommentDto> list() throws SQLException {
-		return null;
+	public List<CommentDto> list(int no) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		List<CommentDto> result = new ArrayList<CommentDto>(); // ArrayList의 상위 타입인 List로 반환
+		try {
+			conn = JdbcUtil.connect();
+			String sql = "SELECT * FROM CMNT order by num DESC "
+					+ "WHERE boardNum = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int num = rs.getInt("num");
+				String memberId = rs.getString("memberId");
+				String content = rs.getString("content");
+				Date commentTime = rs.getDate("commentTime");
+				CommentDto dto = new CommentDto(num, no, memberId, content, commentTime);
+				result.add(dto);
+			}
+
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e);
+		} finally {
+			JdbcUtil.close(pstmt, conn);
+		}
+		return result;
 	}
 
 	@Override
