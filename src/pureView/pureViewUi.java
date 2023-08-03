@@ -2,9 +2,14 @@ package pureView;
 
 import java.util.Scanner;
 
+import pureView.dto.CommentDto;
+import pureView.exception.CommentException;
+import pureView.service.CommentService;
+
 
 public class pureViewUi {
 	private Scanner sc;
+	private CommentService cmtSvc;
 
 	public static void main(String[] args) {
 		new pureViewUi().go();
@@ -45,7 +50,7 @@ public class pureViewUi {
 		} else if (menu == 9) {
 			
 		} else if (menu == 10) {
-			
+			addComment();
 		} else if (menu == 11) {
 			
 		} else if (menu == 12) {
@@ -57,7 +62,24 @@ public class pureViewUi {
 		
 	}
 
+	private void addComment() {
+		System.out.println("** 댓글 등록 **");
+		System.out.println("게시물 번호를 입력하세요 >> ");
+		int boardNum = Integer.parseInt(sc.nextLine());
+		System.out.println("작성자를 입력하세요 >> ");
+		String memberId = sc.nextLine();
+		System.out.println("내용을 입력하세요 >> ");
+		String content = sc.nextLine();
+		CommentDto dto = new CommentDto(0, boardNum, memberId, content, null);
+		try {
+			cmtSvc.add(dto);
+		} catch (CommentException e) {
+			System.out.println("게시물 등록 오류");
+		}
+	}
+
 	private void init() {
 		sc = new Scanner(System.in);
+		cmtSvc = new CommentServiceImpl();
 	}
 }
