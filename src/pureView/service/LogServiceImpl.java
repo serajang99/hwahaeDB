@@ -31,7 +31,15 @@ public class LogServiceImpl implements LogService{
 	@Override
 	public void update(LoginDto m) throws LogException {
 		// TODO Auto-generated method stub
-		
+		try {
+			loginDao.update(m);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

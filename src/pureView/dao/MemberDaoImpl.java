@@ -70,7 +70,7 @@ public class MemberDaoImpl implements MemberDao{
 				
 				con = JdbcUtil.connect();
 				// 3. SQL 작성
-				String sql = "UPDATE MEMBER set id = ?, name = ?, passwd = ?, skintype = ? age = ? ";
+				String sql = "UPDATE MEMBER set name = ?, passwd = ?, skintype = ?, age = ? ";
 				sql += "WHERE id = ?";
 	            pstmt = con.prepareStatement(sql);
 				// 4. Statement 생성
@@ -78,11 +78,11 @@ public class MemberDaoImpl implements MemberDao{
 
 				
 				// 5. 필요한 데이터 설정 
-				pstmt.setString(1,m.getId());
-				pstmt.setString(2,m.getName());
-				pstmt.setString(3,m.getPasswd());
-				pstmt.setString(4,m.getSkintype());
-				pstmt.setInt(5,m.getAge());
+				pstmt.setString(1,m.getName());
+				pstmt.setString(2,m.getPasswd());
+				pstmt.setString(3,m.getSkintype());
+				pstmt.setInt(4,m.getAge());
+				pstmt.setString(5,m.getId());
 				// 6. SQL 전송 및 결과 수신 
 				// DML 전송 : executeUpdate() : int 타입 반환
 				// SELECT 전송 : executeQuery() : ResultSet 타입 반환
@@ -142,19 +142,20 @@ public class MemberDaoImpl implements MemberDao{
 	    		//   DML전송: executeUpdate() : int 
 	    		//   SELECT전송: executeQuery() : ResultSet
 	    		ResultSet rs = pstmt.executeQuery();
-
 	    		if(rs.next()) {//조회결과가 있다
 	    			String name = rs.getString("name");
 	    			String passwd = rs.getString("passwd");
 	    			String skin_type = rs.getString("skintype");	    			
 	    			int age = rs.getInt("age");
 	    			dto = new MemberDto(id, name, passwd, skin_type, age);
+	    			System.out.println(dto);
 	    		}
 	        } catch (ClassNotFoundException e) {
 	            throw new SQLException(e);
 	        } finally {
 	            JdbcUtil.close(pstmt, con);
 	        }
+			System.out.println(dto);
 	        return dto;
 		}
 		
