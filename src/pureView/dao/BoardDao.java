@@ -14,8 +14,6 @@ public interface BoardDao {
 	public void update(BoardDto dto) throws SQLException, RecordNotFoundException;
 	//삭제
 	public void delete(int no) throws SQLException, RecordNotFoundException;
-	//갯수
-	public int count() throws SQLException;
 	//목록
 	public List<BoardDto> list() throws SQLException;
 	//id검색

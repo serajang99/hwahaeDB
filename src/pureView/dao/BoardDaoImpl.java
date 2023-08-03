@@ -99,10 +99,6 @@ public class BoardDaoImpl implements BoardDao {
 		}
 	}
 
-	@Override
-	public int count() throws SQLException {
-		return 0;
-	}
 
 	@Override
 	public List<BoardDto> list() throws SQLException {
@@ -171,5 +167,6 @@ public class BoardDaoImpl implements BoardDao {
 		}
 		return dto;
 	}
+
 
 }
