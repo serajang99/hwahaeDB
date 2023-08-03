@@ -14,9 +14,9 @@ public class JdbcUtil {
 		System.out.println("Jdbc Driver 로딩 성공");
 
 		// 2. DBMS 연결
-		String url = "jdbc:oracle:thin:@127.0.0.1:1521/XE";
-		String user = "hr";
-		String password = "HR";
+		String url = "jdbc:oracle:thin:@10.3.1.105:1521/XE";
+		String user = "c##pureview";
+		String password = "pv0803";
 		return DriverManager.getConnection(url, user, password);
 	}
 
