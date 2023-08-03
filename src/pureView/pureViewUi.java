@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-import pureView.dao.MemberException;
+import pureView.exception.MemberException;
 import pureView.dto.MemberDto;
 import pureView.service.MemberService;
 import pureView.exception.RecordNotFoundException;

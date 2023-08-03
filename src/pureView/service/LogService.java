@@ -3,8 +3,8 @@ package pureView.service;
 import java.sql.SQLException;
 import java.util.List;
 
-import pureView.dao.DuplicatedIdException;
-import pureView.dao.RecordNotFoundException;
+import pureView.exception.DuplicatedIdException;
+import pureView.exception.RecordNotFoundException;
 import pureView.dto.LoginDto;
 
 public interface LogService {

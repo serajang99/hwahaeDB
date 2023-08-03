@@ -16,6 +16,8 @@ import oracle.sql.DATE;
 
 
 import pureView.dto.LoginDto;
+import pureView.exception.DuplicatedIdException;
+import pureView.exception.RecordNotFoundException;
 import pureView.util.JdbcUtil;
 public class LoginDaoImpl implements LoginDao {
 

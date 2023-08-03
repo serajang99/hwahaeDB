@@ -1,4 +1,4 @@
-package pureView.dao;
+package pureView.exception;
 
 public class MemberException extends Exception {
 	public MemberException() {

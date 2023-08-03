@@ -3,11 +3,9 @@ package pureView.service;
 import java.sql.SQLException;
 import java.util.List;
 
-import pureView.dao.DuplicatedIdException;
+import pureView.exception.*;
 import pureView.dao.MemberDao;
 import pureView.dao.MemberDaoImpl;
-import pureView.dao.MemberException;
-import pureView.dao.RecordNotFoundException;
 import pureView.dto.MemberDto;
 
 public class MemberServiceImpl implements MemberService {

@@ -6,6 +6,8 @@ import java.util.List;
 
 
 import pureView.dto.MemberDto;
+import pureView.exception.DuplicatedIdException;
+import pureView.exception.RecordNotFoundException;
 
 public interface MemberDao{
 	  //등록

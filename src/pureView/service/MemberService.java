@@ -3,7 +3,7 @@ package pureView.service;
 
 import java.util.List;
 
-import pureView.dao.MemberException;
+import pureView.exception.MemberException;
 import pureView.dto.MemberDto;
 
 public interface MemberService {

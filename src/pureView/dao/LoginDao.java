@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import pureView.dto.LoginDto;
+import pureView.exception.DuplicatedIdException;
+import pureView.exception.RecordNotFoundException;
 
 
 

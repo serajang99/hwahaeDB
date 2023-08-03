@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pureView.dto.MemberDto;
+import pureView.exception.DuplicatedIdException;
+import pureView.exception.RecordNotFoundException;
 import pureView.util.JdbcUtil;
 
 
