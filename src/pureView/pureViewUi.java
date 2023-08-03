@@ -7,12 +7,18 @@ import pureView.dao.BoardException;
 import pureView.dto.BoardDto;
 import pureView.service.BoardService;
 import pureView.service.BoardServiceImpl;
+import pureView.dto.CommentDto;
+import pureView.exception.CommentException;
+import pureView.service.CommentService;
+
 
 
 public class pureViewUi {
 	private Scanner sc;
+
 	private BoardService brdSvc;
-	
+	private CommentService cmtSvc;
+
 	public static void main(String[] args) {
 		new pureViewUi().go();
 	}
@@ -20,6 +26,7 @@ public class pureViewUi {
 	private void init() {
 		sc = new Scanner(System.in);
 		brdSvc = new BoardServiceImpl();
+    cmtSvc = new CommentServiceImpl();
 	}
 	
 	private void go() {
@@ -29,14 +36,15 @@ public class pureViewUi {
 	}
 	
 	private void mainMenu() {
-		System.out.println("메인 메뉴: (0) 종료 (1)로그인 (2)로그아웃 "
+		System.out.println("메인 메뉴: (0) 회원가입 (1)로그인 (2)로그아웃 "
 				+ "(3)화장품 목록 (4)화장품 상세보기 "
 				+ "(5)리뷰 게시판 목록 (6)리뷰 등록 (7)리뷰 상세보기(댓글 포함) (8)리뷰 수정 (9)리뷰 삭제 "
-				+ "(10)댓글 등록 (11)댓글 수정 (12)댓글 삭제");
+				+ "(10)댓글 등록 (11)댓글 수정 (12)댓글 삭제 "
+				+ "(13)종료");
 		System.out.println("메뉴 선택: ");
 		int menu = Integer.parseInt(sc.nextLine());
 		if (menu == 0) {
-			System.exit(0);
+			
 		} else if (menu == 1) {
 //			login();
 		} else if (menu == 2) {
@@ -56,12 +64,14 @@ public class pureViewUi {
 		} else if (menu == 9) {
 //			deleteBoard();
 		} else if (menu == 10) {
-			
+			addComment();
 		} else if (menu == 11) {
 			
 		} else if (menu == 12) {
 			
-		} 
+		} else {
+			System.exit(0);
+		}
 	}
 	
 	private void addBoard() {
@@ -103,6 +113,23 @@ public class pureViewUi {
 			}
 		} catch (BoardException e) {
 			System.out.println("*** 서버에 오류가 발생 ***");
+		}
+		
+	}
+
+	private void addComment() {
+		System.out.println("** 댓글 등록 **");
+		System.out.println("게시물 번호를 입력하세요 >> ");
+		int boardNum = Integer.parseInt(sc.nextLine());
+		System.out.println("작성자를 입력하세요 >> ");
+		String memberId = sc.nextLine();
+		System.out.println("내용을 입력하세요 >> ");
+		String content = sc.nextLine();
+		CommentDto dto = new CommentDto(0, boardNum, memberId, content, null);
+		try {
+			cmtSvc.add(dto);
+		} catch (CommentException e) {
+			System.out.println("댓글 등록 오류");
 		}
 	}
 	
