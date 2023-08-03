@@ -39,20 +39,40 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDto read(int no) throws BoardException, RecordNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			BoardDto dto = boardDao.findById(no);
+			if (dto == null) { //해당 번호가 없음
+				throw new RecordNotFoundException();
+			}
+			return dto;
+		} catch (SQLException e) {
+			throw new BoardException(e.getMessage());
+		}
 	}
 
 	@Override
 	public boolean update(BoardDto dto) throws BoardException, RecordNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			boardDao.update(dto);
+		} catch (SQLException e) {
+//			e.printStackTrace();
+			throw new BoardException(e.getMessage());
+		} 
+		return true;
 	}
 
 	@Override
 	public boolean delete(int no) throws BoardException, RecordNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			BoardDto dto = boardDao.findById(no);
+			if (dto == null) { //해당 번호가 없음
+				throw new RecordNotFoundException();
+			}
+			boardDao.delete(no);
+		} catch (SQLException e) {
+			throw new BoardException(e.getMessage());
+		}
+		return true;
 	}
 
 }
