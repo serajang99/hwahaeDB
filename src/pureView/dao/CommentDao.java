@@ -21,7 +21,7 @@ public interface CommentDao {
 	public int count() throws SQLException;
 
 	// 목록
-	public List<CommentDto> list() throws SQLException;
+	public List<CommentDto> list(int no) throws SQLException;
 
 	// 검색
 	public CommentDto findById(int no) throws SQLException, RecordNotFoundException;
