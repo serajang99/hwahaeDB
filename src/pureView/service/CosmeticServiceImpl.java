@@ -21,5 +21,16 @@ public class CosmeticServiceImpl implements CosmeticService {
 		}
 		return list;
 	}
+	
+	@Override
+	public CosmeticDto detail(String search) {
+		CosmeticDto dto = null;
+		try {
+			dto = cosmeticDao.findByName(search);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
 
 }
