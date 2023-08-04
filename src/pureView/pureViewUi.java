@@ -185,6 +185,7 @@ public class pureViewUi {
 			dto.setAge(age_3);
 			mbSvc.update(dto);
 			System.out.println("회원 정보가 수정되었습니다.");
+			System.out.println(dto);
 		} catch (NumberFormatException e) {
 			System.out.println("---입력 오류---");
 		} catch (MemberException e) {
