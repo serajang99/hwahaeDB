@@ -13,5 +13,5 @@ public interface CosmeticDao {
 	public CosmeticDto findByName(String search) throws SQLException;
 
 	// 통계
-	public List<CosmeticDto> statistics();
+	public List<CosmeticDto> statistics() throws SQLException;
 }

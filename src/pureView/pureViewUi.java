@@ -53,9 +53,9 @@ public class pureViewUi {
 	}
 
 	private void mainMenu() {
-		System.out.println("메인 메뉴 : (0) 회원 관리 (1)로그인 (2)로그아웃 " + "(3)화장품 목록 (4)화장품 상세보기 "
-				+ "(5)리뷰 게시판 목록 (6)리뷰 등록 (7)리뷰 상세보기(댓글 포함) (8)리뷰 수정 (9)리뷰 삭제 " + "(10)댓글 등록 (11)댓글 수정 (12)댓글 삭제 "
-				+ "(13) 화장품 통계 (14) 종료");
+		System.out.println("** 메인 메뉴 ** \n* 회원:  (0) 회원 관리 (1)로그인 (2)로그아웃 \n" + "* 화장품: (3)화장품 목록 (4)화장품 상세보기 \n"
+				+ "* 리뷰:  (5)리뷰 게시판 목록 (6)리뷰 등록 (7)리뷰 상세보기 (8)리뷰 수정 (9)리뷰 삭제 \n" + "* 댓글:  (10)댓글 등록 (11)댓글 수정 (12)댓글 삭제 \n"
+				+ "* 통계:  (13) 화장품 통계 \n* 종료:  (14) 종료");
 		System.out.println("메뉴 선택: ");
 		int menu = Integer.parseInt(sc.nextLine());
 		if (menu == 0) {
@@ -99,7 +99,6 @@ public class pureViewUi {
 			System.exit(0);
 		}
 	}
-
 
 	// 회원 Member
 	// (0) 회원관리 - (0) 회원가입
@@ -349,8 +348,8 @@ public class pureViewUi {
 		}
 
 	}
-	
-	// (6)리뷰 등록 
+
+	// (6)리뷰 등록
 	private void addBoard() {
 		System.out.println("** 리뷰 등록 **");
 		System.out.println("제목을 입력하세요>>");
@@ -402,7 +401,6 @@ public class pureViewUi {
 		}
 
 	}
-	
 
 	// (8)리뷰 수정
 	private void updateBoard() {
@@ -450,7 +448,6 @@ public class pureViewUi {
 		}
 
 	}
-
 
 	// Comment
 	// (10) 댓글 등록
@@ -504,22 +501,17 @@ public class pureViewUi {
 			System.out.println("댓글을 찾을 수 없습니다.");
 		}
 	}
-	
-	
+
 	// (13) 화장품 통계
 	private void cosmeticsStatistics() {
 		List<CosmeticDto> list;
 		System.out.println("** 화장품 통계 **");
-		try {
-			list = csmtSvc.statistics();
-			for (CosmeticDto dto : list) {
-				System.out.println(dto);
-			}
-		} catch (CommentException e) {
-			System.out.println("---댓글 삭제 오류---");
-		} catch (RecordNotFoundException e) {
-			System.out.println("댓글을 찾을 수 없습니다.");
+
+		list = csmtSvc.statistics();
+		for (CosmeticDto dto : list) {
+			System.out.println(dto);
 		}
+
 	}
 
 }

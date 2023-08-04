@@ -17,13 +17,12 @@ public class CosmeticDaoImpl implements CosmeticDao {
 		try {
 			con = JdbcUtil.connect();
 			String sql;
-			if (cate!="전체") {
+			if (cate != "전체") {
 				sql = "SELECT * FROM COSMETICS WHERE CATEGORY=? ORDER BY ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, cate);
 				pstmt.setString(2, ob);
-			}
-			else {
+			} else {
 				System.out.println(cate);
 				System.out.println(ob);
 				sql = "SELECT * FROM COSMETICS ORDER BY ?";
@@ -31,15 +30,14 @@ public class CosmeticDaoImpl implements CosmeticDao {
 				pstmt.setString(1, ob);
 			}
 
-			
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {//조회결과가 있다
+			while (rs.next()) {// 조회결과가 있다
 				int cosNum = rs.getInt("cosNum");
 				String name = rs.getString("name");
 				String category = rs.getString("category");
-				int price = rs.getInt("price"); 
+				int price = rs.getInt("price");
 				String company = rs.getString("company");
-				int volume = rs.getInt("volume"); 
+				int volume = rs.getInt("volume");
 				CosmeticDto dto = new CosmeticDto(cosNum, name, category, price, company, volume);
 				result.add(dto);
 			}
@@ -58,19 +56,18 @@ public class CosmeticDaoImpl implements CosmeticDao {
 		PreparedStatement pstmt = null;
 		try {
 			con = JdbcUtil.connect();
-			String sql = "SELECT * FROM COSMETICS JOIN HARMFULCOS USING(COSNUM) "
-					+ "JOIN HARMFULINGRD USING(INGRDNUM) "
+			String sql = "SELECT * FROM COSMETICS JOIN HARMFULCOS USING(COSNUM) " + "JOIN HARMFULINGRD USING(INGRDNUM) "
 					+ "WHERE NAME LIKE ?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, "%"+search+"%");
+			pstmt.setString(1, "%" + search + "%");
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				int cosNum = rs.getInt("cosNum");
 				String name = rs.getString("name");
 				String category = rs.getString("category");
-				int price = rs.getInt("price"); 
+				int price = rs.getInt("price");
 				String company = rs.getString("company");
-				int volume = rs.getInt("volume"); 
+				int volume = rs.getInt("volume");
 				String ingrdName = rs.getString("ingrdName");
 				String sideEffect = rs.getString("sideEffect");
 				dto = new CosmeticDto(cosNum, name, category, price, company, volume, ingrdName, sideEffect);
@@ -86,8 +83,30 @@ public class CosmeticDaoImpl implements CosmeticDao {
 	}
 
 	@Override
-	public List<CosmeticDto> statistics() {
-		return null;
+	public List<CosmeticDto> statistics() throws SQLException {
+		List<CosmeticDto> result = new ArrayList<CosmeticDto>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = JdbcUtil.connect();
+			String sql;
+			sql = "SELECT category, COUNT(*), AVG(price) FROM COSMETICS GROUP BY category";
+			pstmt = con.prepareStatement(sql);
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {// 조회결과가 있다
+				String category = rs.getString("category");
+				int count = rs.getInt("COUNT(*)");
+				int avgPrice = rs.getInt("AVG(price)");
+				
+//				result.add(dto);
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			throw new SQLException(e);
+		} finally {
+			JdbcUtil.close(pstmt, con);
+		}
+		return result;
 	}
 
 }
