@@ -64,5 +64,21 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return dto;
 	}
+
+	@Override
+	public MemberDto findByPw(String pw) throws MemberException {
+		// TODO Auto-generated method stub
+		MemberDto dto = null;
+		try {
+			dto = memberDao.findByPw(pw);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dto;
+	}
 	
 }

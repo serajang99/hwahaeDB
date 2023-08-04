@@ -77,9 +77,9 @@ public class pureViewUi {
 				deleteMember();
 			} 
 		} else if (menu == 1) {
-			addLog();
+			logIn();
 		} else if (menu == 2) {
-			updateLog();
+			logOut();
 		} else if (menu == 3) {
 			cosmeticsList();
 		} else if (menu == 4) {
@@ -106,21 +106,80 @@ public class pureViewUi {
 	}
 
 
+	private void logIn() {
+		System.out.println("** 로그인 **");
+		System.out.println("아이디를 입력하세요 : ");
+		String id = sc.nextLine();		
 
+		MemberDto dto1 = null;
+		try {
+			dto1 = mbSvc.findById(id);
+			if(dto1==null)
+			{
+				while(true) {
+					System.out.println("존재하지 않는 아이디입니다. 다시 입력해주세요 : ");
+					id = sc.nextLine();
+					dto1 = mbSvc.findById(id);
+					if(dto1!=null) {
+						break;
+					}
+				}				
+			}
+			System.out.println("비밀번호를 입력하세요 : ");
+			String pw = sc.nextLine();
+			dto1=mbSvc.findByPw(pw);
+			if(dto1==null)
+			{
+				while(true) {
+					System.out.println("존재하지 않는 비밀번호입니다. 다시 입력해주세요 : ");
+					pw = sc.nextLine();
+					dto1 = mbSvc.findByPw(pw);
+					if(dto1!=null) {
+						break;
+					}
+				}				
+			}
+		}catch (MemberException e) {
+			System.out.println("---서버 오류---");
+		}
 
+		// 아이디 비밀번호 정상입력 완료
+		// 해당 아이디의 로그인 기록 확인 후 
+		// 있으면 업데이트
+		// 없으면 최초 로그인
+		LoginDto dto2 = new LoginDto(0, null, null, id);
+		LoginDto dto3 = null;
+		
+		try {
+			dto3 = logSvc.findById(id);
+			// null이면 최초 로그인 -> add
+			// null이 아니면 기존 로그인 정보에서 -> update 
+			if(dto3==null)
+			{
+				logSvc.add(dto2);
+			}
+			else
+			{
+				logSvc.update_in(dto2);
+			}
+		} catch (LogException e) {
+			System.out.println("---서버오류---");
+		} catch (RecordNotFoundException e) {
+			System.out.println("---비밀번호 오류---");
+		}
 
+	}
 
-
-	private void updateLog() {
+	private void logOut() {
 		System.out.println("** 로그아웃 **");
 		System.out.println("아이디를 입력하세요 : ");
 		String id = sc.nextLine();		
 		
 		LoginDto dto = new LoginDto(0, null, null, id); 
-
+		
 		try {
 			try {
-				logSvc.update(dto);
+				logSvc.update_out(dto);
 			} catch (RecordNotFoundException e) {
 				
 			}
@@ -129,25 +188,6 @@ public class pureViewUi {
 			System.out.println("로그아웃 오류");
 		}
 	}
-
-
-
-	private void addLog() {
-		System.out.println("** 로그인 **");
-		System.out.println("아이디를 입력하세요 : ");
-		String id = sc.nextLine();		
-		
-		LoginDto dto = new LoginDto(0, null, null, id); 
-
-		try {
-			logSvc.add(dto);
-		} catch (LogException e) {
-			// TODO Auto-generated catch block
-			System.out.println("로그인 오류");
-		}
-
-	}
-
 
 
 
@@ -248,21 +288,49 @@ public class pureViewUi {
 		MemberDto dto = null;
 			try {
 				dto = mbSvc.findById(id);
-				System.out.println(mbSvc.findById(id));
-				System.out.println(dto);
-				System.out.println("** 상세보기 **");
-//				System.out.println("수정할 아이디 (없으면 엔터) : ");
-//				String id_2 = sc.nextLine();
-//				id_2 = id_2.length()==0?dto.getId():id_2;
+				if(dto==null)
+				{
+					while(true) {
+						System.out.println("잘못된 아이디입니다. 다시 입력해주세요 : ");
+						id = sc.nextLine();
+						dto = mbSvc.findById(id);
+						if(dto!=null) {
+							break;
+						}
+					}
+				}
+
+				System.out.println("** 수정사항 **");
 				System.out.println("수정할 이름 (없으면 엔터): ");
 				String name_2 = sc.nextLine();
 				name_2 = name_2.length()==0?dto.getName():name_2;
 				System.out.println("수정할 비밀번호 (없으면 엔터): ");
 				String passwd_2 = sc.nextLine();
 				passwd_2 = passwd_2.length()==0?dto.getPasswd():passwd_2;
-				System.out.println("수정할 피부타입 (없으면 엔터) : ");
+				System.out.println("수정할 피부타입 (건성, 지성, 복합성 中 1, 없으면 엔터) : ");
 				String skin_type_2 = sc.nextLine();
-				skin_type_2 =skin_type_2.length()==0?dto.getSkintype():skin_type_2;
+				System.out.println(skin_type_2);
+				if(skin_type_2.equals(""))
+				{
+					skin_type_2=dto.getSkintype();
+				}
+				
+				else if(!"건성".equals(skin_type_2) || !"지성".equals(skin_type_2) || !"복합성".equals(skin_type_2))
+				{
+					
+					while(true) {
+						System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1, 없으면 엔터) : ");
+						skin_type_2 = sc.nextLine();
+						if("건성".equals(skin_type_2) || "지성".equals(skin_type_2) || "복합성".equals(skin_type_2)) {
+							break;
+						}
+						else if(skin_type_2.equals(""))
+						{
+							skin_type_2=dto.getSkintype();
+							break;
+						}
+					}
+				}
 				System.out.println("수정할 나이 (없으면 엔터) : ");
 				String age_2 = sc.nextLine();
 				int age_3=0;
@@ -270,15 +338,13 @@ public class pureViewUi {
 				dto.setId(id);
 				dto.setName(name_2);
 				dto.setPasswd(passwd_2);
-				dto.setSkintype(age_2);
+				dto.setSkintype(skin_type_2);
 				dto.setAge(age_3);
 				mbSvc.update(dto);
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("---입력 오류---");
 			} catch (MemberException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("---회원 서버 오류---");
 			}
 		
 	}
@@ -292,8 +358,7 @@ public class pureViewUi {
 				mbSvc.delete(id);
 				System.out.println(id+"가 삭제되었습니다.");
 			} catch (MemberException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("---회원 서버 오류---");
 			}
 			
 		

@@ -18,6 +18,6 @@ public interface MemberService {
 	  public void delete(String id) throws MemberException;
 	  //검색
 	  public MemberDto findById(String id) throws MemberException;
-	  
+	  public MemberDto findByPw(String id) throws MemberException;
 	  
 }

@@ -29,10 +29,10 @@ public class LogServiceImpl implements LogService{
 	}
 
 	@Override
-	public void update(LoginDto m) throws LogException {
+	public void update_in(LoginDto m) throws LogException {
 		// TODO Auto-generated method stub
 		try {
-			loginDao.update(m);
+			loginDao.update_in(m);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,6 +42,20 @@ public class LogServiceImpl implements LogService{
 		}
 	}
 
+	@Override
+	public void update_out(LoginDto m) throws LogException, RecordNotFoundException {
+		// TODO Auto-generated method stub
+		try {
+			loginDao.update_out(m);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void delete(String id) throws LogException {
 		// TODO Auto-generated method stub
@@ -63,8 +77,17 @@ public class LogServiceImpl implements LogService{
 	@Override
 	public LoginDto findById(String id) throws LogException {
 		// TODO Auto-generated method stub
-		return null;
+		LoginDto dto = null;
+		try {
+			dto = loginDao.findById(id);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dto;
 	}
+
 	
 	
 

@@ -12,7 +12,8 @@ public interface LogService {
 	//등록
 	  public void add(LoginDto m) throws LogException;
 	  //수정
-	  public void update(LoginDto m) throws LogException,RecordNotFoundException;
+	  public void update_in(LoginDto m) throws LogException,RecordNotFoundException;
+	  public void update_out(LoginDto m) throws LogException,RecordNotFoundException;
 	  //삭제
 	  public void delete(String id) throws LogException;
 	  //갯수

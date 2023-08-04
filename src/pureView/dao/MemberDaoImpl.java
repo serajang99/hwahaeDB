@@ -148,14 +148,44 @@ public class MemberDaoImpl implements MemberDao{
 	    			String skin_type = rs.getString("skintype");	    			
 	    			int age = rs.getInt("age");
 	    			dto = new MemberDto(id, name, passwd, skin_type, age);
-	    			System.out.println(dto);
 	    		}
 	        } catch (ClassNotFoundException e) {
 	            throw new SQLException(e);
 	        } finally {
 	            JdbcUtil.close(pstmt, con);
 	        }
-			System.out.println(dto);
+	        return dto;
+		}
+
+		@Override
+		public MemberDto findByPw(String passwd_) throws SQLException, RecordNotFoundException {
+			MemberDto dto = null;
+			//DBMS연결, statement 생성
+	        Connection con = null;
+	        PreparedStatement pstmt = null;
+	        try {
+	            con = JdbcUtil.connect();
+	    		// 3. SQL 작성
+	    		String sql = "SELECT * FROM MEMBER where passwd = ?";
+	    		pstmt = con.prepareStatement(sql);
+	    		// 5. 데이터 설정
+	    		pstmt.setString(1, passwd_);
+	    		// 6. SQL 전송, 결과수신
+	    		//   DML전송: executeUpdate() : int 
+	    		//   SELECT전송: executeQuery() : ResultSet
+	    		ResultSet rs = pstmt.executeQuery();
+	    		if(rs.next()) {//조회결과가 있다
+	    			String name = rs.getString("name");
+	    			String id = rs.getString("id");
+	    			String skin_type = rs.getString("skintype");	    			
+	    			int age = rs.getInt("age");
+	    			dto = new MemberDto(id, name, passwd_, skin_type, age);
+	    		}
+	        } catch (ClassNotFoundException e) {
+	            throw new SQLException(e);
+	        } finally {
+	            JdbcUtil.close(pstmt, con);
+	        }
 	        return dto;
 		}
 		

@@ -32,22 +32,21 @@ public class LoginDaoImpl implements LoginDao {
 		PreparedStatement pstmt = null;
 		try {
 			// 등록 여부 검사
-			if(findById(m.getMember_id())!=null)
-				throw new SQLException(m.getMember_id()+"는 없는 아이디입니다.");
+
 			con = JdbcUtil.connect();
 			// 3. SQL 작성
 //			String query = "SELECT sysdate as current_date, TO_CHAR(sysdate, 'HH24:MI:SS') as current_time FROM dual";
 
-			String sql = "INSERT INTO LOG(member_id, login_date, logout_date)";
-			sql += "VALUES(?,TO_CHAR(SYSDATE,'yyyy-mm-dd'),?) ";
+			String sql = "INSERT INTO LOG(loginnum, logindate, logoutdate, memberid)";
+			sql += "VALUES(LOG_SEQ.NEXTVAL,SYSDATE,?,?) ";
             pstmt = con.prepareStatement(sql);
 			// 4. Statement 생성
 			// 메서드 명은 prepare, 반환형은 prepared
 
 			
 			// 5. 필요한 데이터 설정 
-			pstmt.setString(1,m.getMember_id());
-			pstmt.setString(2,"null");
+			pstmt.setString(1,null);
+			pstmt.setString(2,m.getMember_id());
 			// 6. SQL 전송 및 결과 수신 
 			// DML 전송 : executeUpdate() : int 타입 반환
 			// SELECT 전송 : executeQuery() : ResultSet 타입 반환
@@ -64,8 +63,7 @@ public class LoginDaoImpl implements LoginDao {
 	}
 	
 
-	@Override
-	public void update(LoginDto m) throws SQLException, RecordNotFoundException {
+public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
 		
 		// DBMS 연결
 		Connection con = null;
@@ -78,8 +76,46 @@ public class LoginDaoImpl implements LoginDao {
 			
 			con = JdbcUtil.connect();
 			// 3. SQL 작성
-			String sql = "UPDATE LOG set logout_date = TO_CHAR(SYSDATE,'yyyy-mm-dd') ";
-			sql += "WHERE member_id = ?";
+			String sql = "UPDATE LOG set logindate = SYSDATE ";
+			sql += "WHERE memberid = ?";
+            pstmt = con.prepareStatement(sql);
+			// 4. Statement 생성
+			// 메서드 명은 prepare, 반환형은 prepared
+           
+			
+			// 5. 필요한 데이터 설정 
+			pstmt.setString(1,m.getMember_id());
+			// 6. SQL 전송 및 결과 수신 
+			// DML 전송 : executeUpdate() : int 타입 반환
+			// SELECT 전송 : executeQuery() : ResultSet 타입 반환
+			
+			int cnt = pstmt.executeUpdate(); // 몇 행에 대해 수행했는지 반환
+		} catch (ClassNotFoundException e) {
+			// Exception을 감싸는 새로운 Exception을 만든다.
+			throw new SQLException(e);
+		} finally {
+			// 7. 자원 반환
+			JdbcUtil.close(pstmt,con);
+		}
+
+	}
+
+	@Override
+	public void update_out(LoginDto m) throws SQLException, RecordNotFoundException {
+		
+		// DBMS 연결
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			// 등록 여부 검사
+			if(findById(m.getMember_id())==null)
+				throw new RecordNotFoundException(m.getMember_id()+"는 없는 ID입니다.");
+			
+			con = JdbcUtil.connect();
+			// 3. SQL 작성
+			String sql = "UPDATE LOG set logoutdate = SYSDATE ";
+			sql += "WHERE memberid = ?";
             pstmt = con.prepareStatement(sql);
 			// 4. Statement 생성
 			// 메서드 명은 prepare, 반환형은 prepared
@@ -114,7 +150,7 @@ public class LoginDaoImpl implements LoginDao {
             con = JdbcUtil.connect();
             // 3. SQL 작성
             String sql = "DELETE LOG ";
-            sql += "WHERE member_id = ?";
+            sql += "WHERE memberid = ?";
             // 4. Statement 생성
             pstmt = con.prepareStatement(sql);
             // 5. 데이터 설정
@@ -169,7 +205,7 @@ public class LoginDaoImpl implements LoginDao {
         try {
             con = JdbcUtil.connect();
     		// 3. SQL 작성
-    		String sql = "SELECT * FROM LOG ORDER BY member_id";
+    		String sql = "SELECT * FROM LOG ORDER BY memberid";
     		pstmt = con.prepareStatement(sql);
     		// 5. 데이터 설정
     		
@@ -179,10 +215,10 @@ public class LoginDaoImpl implements LoginDao {
     		ResultSet rs = pstmt.executeQuery();
 
     		while(rs.next()) {//조회결과가 있다
-    			int login_num = rs.getInt("login_num");
-    			Date login_date = rs.getDate("login_date");
-    			Date logout_date = rs.getDate("logout_date");
-    			String member_id  = rs.getString("member_id");
+    			int login_num = rs.getInt("loginnum");
+    			Date login_date = rs.getDate("logindate");
+    			Date logout_date = rs.getDate("logoutdate");
+    			String member_id  = rs.getString("memberid");
     			LoginDto dto = new LoginDto(login_num, login_date, logout_date, member_id);
     			result.add(dto);
     		}
@@ -204,7 +240,7 @@ public class LoginDaoImpl implements LoginDao {
         try {
             con = JdbcUtil.connect();
     		// 3. SQL 작성
-    		String sql = "SELECT * FROM LOGIN where member_id = ?";
+    		String sql = "SELECT * FROM LOG where memberid = ?";
     		pstmt = con.prepareStatement(sql);
     		// 5. 데이터 설정
     		pstmt.setString(1, m_id);
@@ -214,9 +250,9 @@ public class LoginDaoImpl implements LoginDao {
     		ResultSet rs = pstmt.executeQuery();
 
     		if(rs.next()) {//조회결과가 있다
-    			int login_num = rs.getInt("login_num");
-    			Date login_date = rs.getDate("login_date");
-    			Date logout_date = rs.getDate("logout_date");
+    			int login_num = rs.getInt("loginnum");
+    			Date login_date = rs.getDate("logindate");
+    			Date logout_date = rs.getDate("logoutdate");
     			dto = new LoginDto(login_num, login_date, logout_date, m_id);
     		}
         } catch (ClassNotFoundException e) {

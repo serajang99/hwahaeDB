@@ -14,7 +14,8 @@ public interface LoginDao{
 	  //등록
 	  public void add(LoginDto m) throws  SQLException;
 	  //수정
-	  public void update(LoginDto m) throws  SQLException,RecordNotFoundException;
+	  public void update_in(LoginDto m) throws  SQLException,RecordNotFoundException;
+	  public void update_out(LoginDto m) throws  SQLException,RecordNotFoundException;
 	  //삭제
 	  public void delete(String id) throws  SQLException,RecordNotFoundException;
 	  //갯수
