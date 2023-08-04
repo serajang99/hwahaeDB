@@ -4,7 +4,7 @@
     <eAnnotations xmi:id="_74OwMDHpEe6lMfNhUD5UEA" source="http://ns.yatta.de/umllab">
       <contents xmi:type="ecore:EAnnotation" xmi:id="_74OwMTHpEe6lMfNhUD5UEA" source="codegen">
         <details xmi:id="_74OwMjHpEe6lMfNhUD5UEA" key="codegenDirectory" value="/pureView/src"/>
-        <details xmi:id="_8ag94DHpEe6lMfNhUD5UEA" key="AssociatedSourceCode" value="/pureView/src/pureView/dao/BoardDao.java;1491607101/1;/pureView/src/pureView/dao/BoardDaoImpl.java;2461078521/1;/pureView/src/pureView/dao/CommentDao.java;494882924/1;/pureView/src/pureView/dao/CommentDaoImpl.java;254299893/1;/pureView/src/pureView/dao/LoginDao.java;578668747/1;/pureView/src/pureView/dao/LoginDaoImpl.java;1506167132/1;/pureView/src/pureView/dao/MemberDao.java;1810717506/1;/pureView/src/pureView/dao/MemberDaoImpl.java;3069520224/1;/pureView/src/pureView/dto/BoardDto.java;437893435/1;/pureView/src/pureView/dto/CommentDto.java;1446895714/1;/pureView/src/pureView/dto/LoginDto.java;2712248396/1;/pureView/src/pureView/dto/MemberDto.java;1392809294/1;/pureView/src/pureView/exception/BoardException.java;3754842365/1;/pureView/src/pureView/exception/CommentException.java;236321592/1;/pureView/src/pureView/exception/DuplicatedIdException.java;1189129254/1;/pureView/src/pureView/exception/MemberException.java;3684818033/1;/pureView/src/pureView/exception/RecordNotFoundException.java;3289478125/1;/pureView/src/pureView/pureViewUi.java;2873028269/1;/pureView/src/pureView/service/BoardService.java;2609708470/1;/pureView/src/pureView/service/BoardServiceImpl.java;2672878853/1;/pureView/src/pureView/service/CommentService.java;4162326765/1;/pureView/src/pureView/service/CommentServiceImpl.java;1480667030/1;/pureView/src/pureView/service/LogService.java;1858474185/1;/pureView/src/pureView/service/LogServiceImpl.java;2287747199/1;/pureView/src/pureView/service/MemberService.java;2170617287/1;/pureView/src/pureView/service/MemberServiceImpl.java;1423837757/1;/pureView/src/pureView/util/JdbcUtil.java;3208664218/1;"/>
+        <details xmi:id="_8ag94DHpEe6lMfNhUD5UEA" key="AssociatedSourceCode" value="/pureView/src/pureView/dao/BoardDao.java;1491607101/1;/pureView/src/pureView/dao/BoardDaoImpl.java;2461078521/1;/pureView/src/pureView/dao/CommentDao.java;494882924/1;/pureView/src/pureView/dao/CommentDaoImpl.java;254299893/1;/pureView/src/pureView/dao/LoginDao.java;578668747/1;/pureView/src/pureView/dao/LoginDaoImpl.java;1506167132/1;/pureView/src/pureView/dao/MemberDao.java;1604844684/1;/pureView/src/pureView/dao/MemberDaoImpl.java;3069520224/1;/pureView/src/pureView/dto/BoardDto.java;437893435/1;/pureView/src/pureView/dto/CommentDto.java;1446895714/1;/pureView/src/pureView/dto/LoginDto.java;2712248396/1;/pureView/src/pureView/dto/MemberDto.java;1392809294/1;/pureView/src/pureView/exception/BoardException.java;3754842365/1;/pureView/src/pureView/exception/CommentException.java;236321592/1;/pureView/src/pureView/exception/DuplicatedIdException.java;1189129254/1;/pureView/src/pureView/exception/MemberException.java;3684818033/1;/pureView/src/pureView/exception/RecordNotFoundException.java;3289478125/1;/pureView/src/pureView/pureViewUi.java;2873028269/1;/pureView/src/pureView/service/BoardService.java;2609708470/1;/pureView/src/pureView/service/BoardServiceImpl.java;2672878853/1;/pureView/src/pureView/service/CommentService.java;4162326765/1;/pureView/src/pureView/service/CommentServiceImpl.java;1480667030/1;/pureView/src/pureView/service/LogService.java;3037486828/1;/pureView/src/pureView/service/LogServiceImpl.java;2287747199/1;/pureView/src/pureView/service/MemberService.java;1215298508/1;/pureView/src/pureView/service/MemberServiceImpl.java;1423837757/1;/pureView/src/pureView/util/JdbcUtil.java;3208664218/1;"/>
       </contents>
     </eAnnotations>
     <elementImport xmi:id="_8NRzIDHpEe6lMfNhUD5UEA">
@@ -1466,6 +1466,12 @@
           <ownedOperation xmi:id="_8SJFADHpEe6lMfNhUD5UEA" name="update" raisedException="_8Rx4oDHpEe6lMfNhUD5UEA _8PFxADHpEe6lMfNhUD5UEA">
             <ownedParameter xmi:id="_8SJFATHpEe6lMfNhUD5UEA" name="m" type="_8O8nEDHpEe6lMfNhUD5UEA"/>
           </ownedOperation>
+          <ownedOperation xmi:id="_hDs5UDKPEe62z-fgRMC5gw" name="findByPw" raisedException="_8Rx4oDHpEe6lMfNhUD5UEA _8PFxADHpEe6lMfNhUD5UEA">
+            <ownedParameter xmi:id="_hDs5UTKPEe62z-fgRMC5gw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_hDs5UjKPEe62z-fgRMC5gw" type="_8O8nEDHpEe6lMfNhUD5UEA" direction="return"/>
+          </ownedOperation>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_8OpFEDHpEe6lMfNhUD5UEA" name="MemberDaoImpl">
           <interfaceRealization xmi:id="_8SJsEDHpEe6lMfNhUD5UEA" client="_8OpFEDHpEe6lMfNhUD5UEA" supplier="_8OkzoDHpEe6lMfNhUD5UEA" contract="_8OkzoDHpEe6lMfNhUD5UEA"/>
@@ -2027,8 +2033,11 @@
           <ownedOperation xmi:id="_8SXugDHpEe6lMfNhUD5UEA" name="add" raisedException="_8TfPMDHxEe6lMfNhUD5UEA">
             <ownedParameter xmi:id="_8SXugTHpEe6lMfNhUD5UEA" name="m" type="_8O5jwDHpEe6lMfNhUD5UEA"/>
           </ownedOperation>
-          <ownedOperation xmi:id="_8SXugjHpEe6lMfNhUD5UEA" name="update" raisedException="_8TfPMDHxEe6lMfNhUD5UEA _8PFxADHpEe6lMfNhUD5UEA">
-            <ownedParameter xmi:id="_8SXugzHpEe6lMfNhUD5UEA" name="m" type="_8O5jwDHpEe6lMfNhUD5UEA"/>
+          <ownedOperation xmi:id="_oZM8sDKOEe62z-fgRMC5gw" name="update_in" raisedException="_8TfPMDHxEe6lMfNhUD5UEA _8PFxADHpEe6lMfNhUD5UEA">
+            <ownedParameter xmi:id="_oZNjwDKOEe62z-fgRMC5gw" name="m" type="_8O5jwDHpEe6lMfNhUD5UEA"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_oZNjwTKOEe62z-fgRMC5gw" name="update_out" raisedException="_8TfPMDHxEe6lMfNhUD5UEA _8PFxADHpEe6lMfNhUD5UEA">
+            <ownedParameter xmi:id="_oZNjwjKOEe62z-fgRMC5gw" name="m" type="_8O5jwDHpEe6lMfNhUD5UEA"/>
           </ownedOperation>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_8PgAsDHpEe6lMfNhUD5UEA" name="LogServiceImpl">
@@ -2121,6 +2130,12 @@
           </ownedOperation>
           <ownedOperation xmi:id="_8SbY4jHpEe6lMfNhUD5UEA" name="update" raisedException="_8PEi4DHpEe6lMfNhUD5UEA">
             <ownedParameter xmi:id="_8SbY4zHpEe6lMfNhUD5UEA" name="m" type="_8O8nEDHpEe6lMfNhUD5UEA"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_NEWZgDKQEe62z-fgRMC5gw" name="findByPw" raisedException="_8PEi4DHpEe6lMfNhUD5UEA">
+            <ownedParameter xmi:id="_NEWZgTKQEe62z-fgRMC5gw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_NEWZgjKQEe62z-fgRMC5gw" type="_8O8nEDHpEe6lMfNhUD5UEA" direction="return"/>
           </ownedOperation>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_8Pn8gDHpEe6lMfNhUD5UEA" name="MemberServiceImpl">
