@@ -33,4 +33,15 @@ public class CosmeticServiceImpl implements CosmeticService {
 		return dto;
 	}
 
+	@Override
+	public List<CosmeticDto> statistics() {
+		List<CosmeticDto> list = null;
+		try {
+			list = cosmeticDao.statistics();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

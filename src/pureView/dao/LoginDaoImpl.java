@@ -20,20 +20,15 @@ public class LoginDaoImpl implements LoginDao {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-
-			if (findById(m.getMember_id()) == null)
-				throw new SQLException(m.getMember_id() + "는 없는 아이디입니다.");
 			con = JdbcUtil.connect();
 
-
-			String sql = "INSERT INTO LOG(loginnum, logindate, logoutdate, memberid)";
-			sql += "VALUES(LOG_SEQ.NEXTVAL,SYSDATE,?,?) ";
-            pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,null);
-			pstmt.setString(2,m.getMember_id());
+			String sql = "INSERT INTO LOG (loginnum, logindate, logoutdate, memberid) ";
+			sql += "VALUES (LOG_SEQ.NEXTVAL,SYSDATE,null,?) ";
 			
-			int cnt = pstmt.executeUpdate(); 
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, m.getMember_id());
 
+			int cnt = pstmt.executeUpdate();
 
 		} catch (ClassNotFoundException e) {
 			throw new SQLException(e);
@@ -42,9 +37,9 @@ public class LoginDaoImpl implements LoginDao {
 		}
 	}
 
+	@Override
+	public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
 
-public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
-		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -54,43 +49,40 @@ public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
 
 			con = JdbcUtil.connect();
 
-
 			String sql = "UPDATE LOG set logindate = SYSDATE ";
 			sql += "WHERE memberid = ?";
-            pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql);
 
-			pstmt.setString(1,m.getMember_id());
+			pstmt.setString(1, m.getMember_id());
 
-			int cnt = pstmt.executeUpdate(); 
+			int cnt = pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
 
 			throw new SQLException(e);
 		} finally {
 
-			JdbcUtil.close(pstmt,con);
+			JdbcUtil.close(pstmt, con);
 		}
 
 	}
 
 	@Override
 	public void update_out(LoginDto m) throws SQLException, RecordNotFoundException {
-		
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 
-			if(findById(m.getMember_id())==null)
-				throw new RecordNotFoundException(m.getMember_id()+"는 없는 ID입니다.");
-			
+			if (findById(m.getMember_id()) == null)
+				throw new RecordNotFoundException(m.getMember_id() + "는 없는 ID입니다.");
+
 			con = JdbcUtil.connect();
 
 			String sql = "UPDATE LOG set logoutdate = SYSDATE ";
 			sql += "WHERE memberid = ?";
-            pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql);
 
-			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, m.getMember_id());
 
@@ -106,28 +98,27 @@ public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
 	@Override
 	public void delete(String m_id) throws SQLException, RecordNotFoundException {
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
+			if (findById(m_id) == null)
+				throw new RecordNotFoundException(m_id + "는 없는 ID입니다.");
+			con = JdbcUtil.connect();
 
-			if(findById(m_id)==null)
-				throw new RecordNotFoundException(m_id+"는 없는 ID입니다.");
-            con = JdbcUtil.connect();
+			String sql = "DELETE LOG ";
+			sql += "WHERE memberid = ?";
 
-            String sql = "DELETE LOG ";
-            sql += "WHERE memberid = ?";
+			pstmt = con.prepareStatement(sql);
 
-            pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, m_id);
 
-            pstmt.setString(1, m_id);
-
-            int count = pstmt.executeUpdate();
-        } catch (ClassNotFoundException e) {
-            throw new SQLException(e);
-        } finally {
-            JdbcUtil.close(pstmt, con);
-        }
+			int count = pstmt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e);
+		} finally {
+			JdbcUtil.close(pstmt, con);
+		}
 
 	}
 
@@ -142,7 +133,7 @@ public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
 			pstmt = con.prepareStatement(sql);
 
 			ResultSet rs = pstmt.executeQuery();
-			rs.next(); 
+			rs.next();
 			cnt = rs.getInt(1);
 
 		} catch (ClassNotFoundException e) {
@@ -155,37 +146,34 @@ public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
 
 	@Override
 
-	public List<LoginDto> read() throws SQLException{
-		
+	public List<LoginDto> read() throws SQLException {
+
 		List<LoginDto> result = new ArrayList<LoginDto>();
-		
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = JdbcUtil.connect();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = JdbcUtil.connect();
 
-    		String sql = "SELECT * FROM LOG ORDER BY memberid";
-    		pstmt = con.prepareStatement(sql);
+			String sql = "SELECT * FROM LOG ORDER BY memberid";
+			pstmt = con.prepareStatement(sql);
 
-    		ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
-
-
-    		while(rs.next()) {
-    			int login_num = rs.getInt("loginnum");
-    			Date login_date = rs.getDate("logindate");
-    			Date logout_date = rs.getDate("logoutdate");
-    			String member_id  = rs.getString("memberid");
-    			LoginDto dto = new LoginDto(login_num, login_date, logout_date, member_id);
-    			result.add(dto);
-    		}
-        } catch (ClassNotFoundException e) {
-            throw new SQLException(e);
-        } finally {
-            JdbcUtil.close(pstmt, con);
-        }
-        return result;
+			while (rs.next()) {
+				int login_num = rs.getInt("loginnum");
+				Date login_date = rs.getDate("logindate");
+				Date logout_date = rs.getDate("logoutdate");
+				String member_id = rs.getString("memberid");
+				LoginDto dto = new LoginDto(login_num, login_date, logout_date, member_id);
+				result.add(dto);
+			}
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e);
+		} finally {
+			JdbcUtil.close(pstmt, con);
+		}
+		return result;
 
 	}
 
@@ -193,32 +181,31 @@ public void update_in(LoginDto m) throws SQLException, RecordNotFoundException {
 	public LoginDto findById(String m_id) throws SQLException {
 		LoginDto dto = null;
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = JdbcUtil.connect();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = JdbcUtil.connect();
 
-    		String sql = "SELECT * FROM LOG where memberid = ?";
-    		pstmt = con.prepareStatement(sql);
+			String sql = "SELECT * FROM LOG where memberid = ?";
+			pstmt = con.prepareStatement(sql);
 
-    		pstmt.setString(1, m_id);
+			pstmt.setString(1, m_id);
 
-    		ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
-    		if(rs.next()) {
-    			int login_num = rs.getInt("loginnum");
-    			Date login_date = rs.getDate("logindate");
-    			Date logout_date = rs.getDate("logoutdate");
-    			dto = new LoginDto(login_num, login_date, logout_date, m_id);
-    		}
-        } catch (ClassNotFoundException e) {
-            throw new SQLException(e);
-        } finally {
-            JdbcUtil.close(pstmt, con);
-        }
-        return dto;
+			if (rs.next()) {
+				int login_num = rs.getInt("loginnum");
+				Date login_date = rs.getDate("logindate");
+				Date logout_date = rs.getDate("logoutdate");
+				dto = new LoginDto(login_num, login_date, logout_date, m_id);
+			}
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e);
+		} finally {
+			JdbcUtil.close(pstmt, con);
+		}
+		return dto;
 
-	
 	}
 
 }

@@ -55,7 +55,7 @@ public class pureViewUi {
 	private void mainMenu() {
 		System.out.println("메인 메뉴 : (0) 회원 관리 (1)로그인 (2)로그아웃 " + "(3)화장품 목록 (4)화장품 상세보기 "
 				+ "(5)리뷰 게시판 목록 (6)리뷰 등록 (7)리뷰 상세보기(댓글 포함) (8)리뷰 수정 (9)리뷰 삭제 " + "(10)댓글 등록 (11)댓글 수정 (12)댓글 삭제 "
-				+ "(13)종료");
+				+ "(13) 화장품 통계 (14) 종료");
 		System.out.println("메뉴 선택: ");
 		int menu = Integer.parseInt(sc.nextLine());
 		if (menu == 0) {
@@ -93,78 +93,194 @@ public class pureViewUi {
 			updateComment();
 		} else if (menu == 12) {
 			deleteComment();
+		} else if (menu == 13) {
+			cosmeticsStatistics();
 		} else {
 			System.exit(0);
 		}
 	}
 
 
+	// 회원 Member
+	// (0) 회원관리 - (0) 회원가입
+	private void addMember() {
+		System.out.println("** 회원 가입 **");
+		System.out.println("이름을 입력하세요 : ");
+		String name = sc.nextLine();
+		System.out.println("아이디를 입력하세요 : ");
+		String id = sc.nextLine();
+		System.out.println("비밀번호를 입력하세요 : ");
+		String passwd = sc.nextLine();
+		System.out.println("나이를 입력하세요 : ");
+		int age = Integer.parseInt(sc.nextLine());
+		String skin_type = "";
+		while (true) {
+			System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1) : ");
+			skin_type = sc.nextLine();
+			if ("건성".equals(skin_type) || "지성".equals(skin_type) || "복합성".equals(skin_type)) {
+				break;
+			}
+		}
+		MemberDto dto = new MemberDto(id, name, passwd, skin_type, age);
+		try {
+			mbSvc.add(dto);
+			System.out.println("회원 가입되었습니다!");
+		} catch (MemberException e) {
+			System.out.println("회원 등록 오류입니다.");
+		}
+	}
+
+	// (0) 회원관리 - (1) 회원정보수정
+	private void updateMember() {
+		System.out.println("수정할 회원 정보의 아이디를 입력하세요>> ");
+		String id = (sc.nextLine());
+		MemberDto dto = null;
+
+		try {
+			dto = mbSvc.findById(id);
+			if (dto == null) {
+				while (true) {
+					System.out.println("잘못된 아이디입니다. 다시 입력해주세요 : ");
+					id = sc.nextLine();
+					dto = mbSvc.findById(id);
+					if (dto != null) {
+						break;
+					}
+				}
+			}
+
+			System.out.println("** 수정사항 **");
+			System.out.println("수정할 이름 (없으면 엔터): ");
+			String name_2 = sc.nextLine();
+			name_2 = name_2.length() == 0 ? dto.getName() : name_2;
+			System.out.println("수정할 비밀번호 (없으면 엔터): ");
+			String passwd_2 = sc.nextLine();
+			passwd_2 = passwd_2.length() == 0 ? dto.getPasswd() : passwd_2;
+			System.out.println("수정할 피부타입 (건성, 지성, 복합성 中 1, 없으면 엔터) : ");
+			String skin_type_2 = sc.nextLine();
+			System.out.println(skin_type_2);
+			if (skin_type_2.equals("")) {
+				skin_type_2 = dto.getSkintype();
+			}
+
+			else if (!"건성".equals(skin_type_2) || !"지성".equals(skin_type_2) || !"복합성".equals(skin_type_2)) {
+
+				while (true) {
+					if ("건성".equals(skin_type_2) || "지성".equals(skin_type_2) || "복합성".equals(skin_type_2)) {
+						break;
+					} else if (skin_type_2.equals("")) {
+						skin_type_2 = dto.getSkintype();
+						break;
+					}
+					System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1, 없으면 엔터) : ");
+					skin_type_2 = sc.nextLine();
+				}
+			}
+			System.out.println("수정할 나이 (없으면 엔터) : ");
+			String age_2 = sc.nextLine();
+			int age_3 = 0;
+			age_3 = age_2.length() == 0 ? dto.getAge() : Integer.parseInt(age_2);
+			dto.setId(id);
+			dto.setName(name_2);
+			dto.setPasswd(passwd_2);
+			dto.setSkintype(skin_type_2);
+			dto.setAge(age_3);
+			mbSvc.update(dto);
+			System.out.println("회원 정보가 수정되었습니다.");
+		} catch (NumberFormatException e) {
+			System.out.println("---입력 오류---");
+		} catch (MemberException e) {
+			System.out.println("---회원 서버 오류---");
+		}
+
+	}
+
+	// (0) 회원관리 - (2) 회원 삭제
+	private void deleteMember() {
+		System.out.println("삭제하고 싶은 회원 아이디를 입력하세요");
+		String id = (sc.nextLine());
+
+		try {
+			mbSvc.delete(id);
+			System.out.println(id + "가 삭제되었습니다.");
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			mbSvc.delete(id);
+			System.out.println(id + "가 삭제되었습니다.");
+		} catch (MemberException e) {
+			System.out.println("---회원 서버 오류---");
+		}
+
+	}
+
+	// 로그 Log
+	// (1) 로그인
 	private void logIn() {
 		System.out.println("** 로그인 **");
 		System.out.println("아이디를 입력하세요 : ");
-		String id = sc.nextLine();		
+		String id = sc.nextLine();
 
 		MemberDto dto1 = null;
 		try {
 			dto1 = mbSvc.findById(id);
-			if(dto1==null)
-			{
-				while(true) {
+			if (dto1 == null) {
+				while (true) {
 					System.out.println("존재하지 않는 아이디입니다. 다시 입력해주세요 : ");
 					id = sc.nextLine();
 					dto1 = mbSvc.findById(id);
-					if(dto1!=null) {
+					if (dto1 != null) {
 						break;
 					}
-				}				
+				}
 			}
 			System.out.println("비밀번호를 입력하세요 : ");
 			String pw = sc.nextLine();
-			dto1=mbSvc.findByPw(pw);
-			if(dto1==null)
-			{
-				while(true) {
+			dto1 = mbSvc.findByPw(pw);
+			if (dto1 == null) {
+				while (true) {
 					System.out.println("존재하지 않는 비밀번호입니다. 다시 입력해주세요 : ");
 					pw = sc.nextLine();
 					dto1 = mbSvc.findByPw(pw);
-					if(dto1!=null) {
+					if (dto1 != null) {
 						break;
 					}
-				}				
+				}
 			}
-		}catch (MemberException e) {
+		} catch (MemberException e) {
 			System.out.println("---서버 오류---");
 		}
 
 		LoginDto dto2 = new LoginDto(0, null, null, id);
 		LoginDto dto3 = null;
-		
+
 		try {
 			dto3 = logSvc.findById(id);
-			if(dto3==null)
-			{
+			if (dto3 == null) {
 				logSvc.add(dto2);
-			}
-			else
-			{
+
+			} else {
 				logSvc.update_in(dto2);
 			}
 		} catch (LogException e) {
-			System.out.println("---서버오류---");
+			System.out.println("---서버 오류---");
 		} catch (RecordNotFoundException e) {
 			System.out.println("---비밀번호 오류---");
 		}
 
 	}
 
+	// (3) 로그아웃
 	private void logOut() {
 
 		System.out.println("** 로그아웃 **");
 		System.out.println("아이디를 입력하세요 : ");
 
-		String id = sc.nextLine();		
-		
-		LoginDto dto = new LoginDto(0, null, null, id); 
+		String id = sc.nextLine();
+
+		LoginDto dto = new LoginDto(0, null, null, id);
 
 		try {
 			try {
@@ -178,28 +294,10 @@ public class pureViewUi {
 		}
 	}
 
-
-	private void addLog() {
-		System.out.println("** 로그인 **");
-		System.out.println("아이디를 입력하세요 : ");
-		String id = sc.nextLine();
-
-		LoginDto dto = new LoginDto(0, null, null, id);
-		System.out.println("비밀번호를 입력하세요 : ");
-		String pw = sc.nextLine();
-		System.out.println("로그인이 되셨습니다!");
-
-		try {
-			logSvc.add(dto);
-		} catch (LogException e) {
-			System.out.println("로그인 오류");
-		}
-
-	}
-
-
+	// 화장품 Cosmetics
+	// (3) 화장품 목록
 	private void cosmeticsList() {
-		System.out.println("[화장품 목록]");
+		System.out.println("** 화장품 목록 **");
 		List<CosmeticDto> list;
 
 		try {
@@ -222,7 +320,9 @@ public class pureViewUi {
 		}
 	}
 
+	// (4) 화장품 상세보기
 	private void cosmeticsDetail() {
+		System.out.println("** 화장품 상세보기 **");
 		System.out.println("성분이 궁금하신 화장품 이름을 작성해주세요");
 		CosmeticDto result;
 		String search = sc.nextLine();
@@ -231,8 +331,51 @@ public class pureViewUi {
 			System.out.println(result);
 	}
 
+	// 리뷰 Board
+	// (5) 리뷰 게시판 목록
+	private void listBoard() {
+		System.out.println("** 리뷰 목록 **");
+		List<BoardDto> list = null;
+
+		try {
+			list = brdSvc.list();
+			for (BoardDto dto : list) {
+				System.out.println(dto.getBoardNum() + "      " + dto.getBoardTitle() + "      " + dto.getBoardContent()
+						+ "      " + dto.getWriteTime() + "      " + dto.getStarRating() + "      " + dto.getMemberId()
+						+ "      " + dto.getCosNum());
+			}
+		} catch (BoardException e) {
+			System.out.println("---서버 오류---");
+		}
+
+	}
+	
+	// (6)리뷰 등록 
+	private void addBoard() {
+		System.out.println("** 리뷰 등록 **");
+		System.out.println("제목을 입력하세요>>");
+		String title = sc.nextLine();
+		System.out.println("아이디를 입력하세요>>");
+		String memberId = sc.nextLine();
+		System.out.println("내용을 입력하세요>>");
+		String BoardContent = sc.nextLine();
+		System.out.println("별점을 매겨주세요 (1~5점)>>");
+		int starRating = Integer.parseInt(sc.nextLine());
+		System.out.println("화장품 번호를 입력해주세요>>");
+		int cosNum = Integer.parseInt(sc.nextLine());
+		BoardDto dto = new BoardDto(0, title, BoardContent, null, starRating, memberId, cosNum);
+		try {
+			brdSvc.add(dto);
+		} catch (BoardException e) {
+			System.out.println("---게시물 등록 오류---");
+		}
+	}
+
+	// (7)리뷰 상세보기
 	private void listDetailBoard() {
 		List<CommentDto> commentList = null;
+
+		System.out.println("** 리뷰 상세보기 **");
 		System.out.println("리뷰를 볼 게시물 번호를 입력하세요>> ");
 		int BoardNum = Integer.parseInt(sc.nextLine());
 
@@ -255,174 +398,15 @@ public class pureViewUi {
 						+ "      " + dto.getMemberId() + "      " + dto.getBoardNum());
 			}
 		} catch (BoardException e) {
-			System.out.println("*** 서버에 오류가 발생 ***");
+			System.out.println("---서버 오류---");
 		}
 
 	}
+	
 
-	private void addMember() {
-		System.out.println("** 회원 가입 **");
-		System.out.println("이름을 입력하세요 : ");
-		String name = sc.nextLine();
-		System.out.println("아이디를 입력하세요 : ");
-		String id = sc.nextLine();
-		System.out.println("비밀번호를 입력하세요 : ");
-		String passwd = sc.nextLine();
-		System.out.println("나이를 입력하세요 : ");
-		int age = Integer.parseInt(sc.nextLine());
-		String skin_type = "";
-		while (true) {
-			System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1) : ");
-			skin_type = sc.nextLine();
-			if ("건성".equals(skin_type) || "지성".equals(skin_type) || "복합성".equals(skin_type)) {
-				break;
-			}
-		}
-		// 번호(시퀀스), 제목, 작성자, 등록일, 내용
-		MemberDto dto = new MemberDto(id, name, passwd, skin_type, age);
-		try {
-			mbSvc.add(dto);
-		} catch (MemberException e) {
-			System.out.println("회원 등록 오류");
-		}
-	}
-
-	private void updateMember() {
-		System.out.println("수정할 회원 정보의 아이디를 입력하세요>> ");
-		String id = (sc.nextLine());
-		MemberDto dto = null;
-
-			try {
-				dto = mbSvc.findById(id);
-				if(dto==null)
-				{
-					while(true) {
-						System.out.println("잘못된 아이디입니다. 다시 입력해주세요 : ");
-						id = sc.nextLine();
-						dto = mbSvc.findById(id);
-						if(dto!=null) {
-							break;
-						}
-					}
-				}
-
-				System.out.println("** 수정사항 **");
-				System.out.println("수정할 이름 (없으면 엔터): ");
-				String name_2 = sc.nextLine();
-				name_2 = name_2.length()==0?dto.getName():name_2;
-				System.out.println("수정할 비밀번호 (없으면 엔터): ");
-				String passwd_2 = sc.nextLine();
-				passwd_2 = passwd_2.length()==0?dto.getPasswd():passwd_2;
-				System.out.println("수정할 피부타입 (건성, 지성, 복합성 中 1, 없으면 엔터) : ");
-				String skin_type_2 = sc.nextLine();
-				System.out.println(skin_type_2);
-				if(skin_type_2.equals(""))
-				{
-					skin_type_2=dto.getSkintype();
-				}
-				
-				else if(!"건성".equals(skin_type_2) || !"지성".equals(skin_type_2) || !"복합성".equals(skin_type_2))
-				{
-					
-					while(true) {
-						System.out.println("피부 타입을 입력하세요 (건성, 지성, 복합성 中 1, 없으면 엔터) : ");
-						skin_type_2 = sc.nextLine();
-						if("건성".equals(skin_type_2) || "지성".equals(skin_type_2) || "복합성".equals(skin_type_2)) {
-							break;
-						}
-						else if(skin_type_2.equals(""))
-						{
-							skin_type_2=dto.getSkintype();
-							break;
-						}
-					}
-				}
-				System.out.println("수정할 나이 (없으면 엔터) : ");
-				String age_2 = sc.nextLine();
-				int age_3=0;
-				age_3 = age_2.length()==0?dto.getAge():Integer.parseInt(age_2);
-				dto.setId(id);
-				dto.setName(name_2);
-				dto.setPasswd(passwd_2);
-				dto.setSkintype(skin_type_2);
-				dto.setAge(age_3);
-				mbSvc.update(dto);
-			} catch (NumberFormatException e) {
-				System.out.println("---입력 오류---");
-			} catch (MemberException e) {
-				System.out.println("---회원 서버 오류---");
-			}
-		
-
-		try {
-			dto = mbSvc.findById(id);
-			System.out.println(mbSvc.findById(id));
-			System.out.println("** 상세보기 **");
-			System.out.println("수정할 이름 (없으면 엔터): ");
-			String name_2 = sc.nextLine();
-			name_2 = name_2.length() == 0 ? dto.getName() : name_2;
-			System.out.println("수정할 비밀번호 (없으면 엔터): ");
-			String passwd_2 = sc.nextLine();
-			passwd_2 = passwd_2.length() == 0 ? dto.getPasswd() : passwd_2;
-			System.out.println("수정할 피부타입 (없으면 엔터) : ");
-			String skin_type_2 = sc.nextLine();
-			skin_type_2 = skin_type_2.length() == 0 ? dto.getSkintype() : skin_type_2;
-			System.out.println("수정할 나이 (없으면 엔터) : ");
-			String age_2 = sc.nextLine();
-			int age_3 = 0;
-			age_3 = age_2.length() == 0 ? dto.getAge() : Integer.parseInt(age_2);
-			dto.setId(id);
-			dto.setName(name_2);
-			dto.setPasswd(passwd_2);
-			dto.setSkintype(age_2);
-			dto.setAge(age_3);
-			mbSvc.update(dto);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (MemberException e) {
-			e.printStackTrace();
-		}
-
-
-	}
-
-	private void deleteMember() {
-		System.out.println("삭제하고 싶은 회원 아이디를 입력하세요");
-		String id = (sc.nextLine());
-
-		try {
-			mbSvc.delete(id);
-			System.out.println(id + "가 삭제되었습니다.");
-		} catch (MemberException e) {
-			e.printStackTrace();
-		}
-
-
-			try {
-				mbSvc.delete(id);
-				System.out.println(id+"가 삭제되었습니다.");
-			} catch (MemberException e) {
-				System.out.println("---회원 서버 오류---");
-			}
-			
-		
-	}
-
-	private void deleteBoard() {
-		System.out.println("삭제하고 싶은 게시물 번호 입력하세요");
-		int no = Integer.parseInt(sc.nextLine());
-		try {
-			brdSvc.delete(no);
-			System.out.println(no + "가 삭제되었습니다.");
-		} catch (BoardException e) {
-			System.out.println("---게시판 서버 오류---");
-		} catch (RecordNotFoundException e) {
-			System.out.println(no + "번호 게시판이 없습니다");
-		}
-
-	}
-
+	// (8)리뷰 수정
 	private void updateBoard() {
+		System.out.println("** 리뷰 수정 **");
 		System.out.println("수정할려는 게시물 번호를 입력하세요 >> ");
 		int BoardNum = Integer.parseInt(sc.nextLine());
 		try {
@@ -442,6 +426,7 @@ public class pureViewUi {
 			content = content.length() == 0 ? dto.getBoardContent() : content;
 			dto.setBoardContent(content);
 			brdSvc.update(dto);
+			System.out.println("리뷰가 수정되었습니다.");
 		} catch (BoardException e) {
 			e.printStackTrace();
 			System.out.println("--- 게시판 서버 오류입니다 ---");
@@ -450,42 +435,22 @@ public class pureViewUi {
 		}
 	}
 
-	private void addBoard() {
-		System.out.println("** 게시물 등록 **");
-		System.out.println("제목을 입력하세요>>");
-		String title = sc.nextLine();
-		System.out.println("아이디를 입력하세요>>");
-		String memberId = sc.nextLine();
-		System.out.println("내용을 입력하세요>>");
-		String BoardContent = sc.nextLine();
-		System.out.println("별점을 매겨주세요 (1~5점)>>");
-		int starRating = Integer.parseInt(sc.nextLine());
-		System.out.println("화장품 번호를 입력해주세요>>");
-		int cosNum = Integer.parseInt(sc.nextLine());
-		BoardDto dto = new BoardDto(0, title, BoardContent, null, starRating, memberId, cosNum);
+	// (9)리뷰 삭제
+	private void deleteBoard() {
+		System.out.println("** 리뷰 삭제 **");
+		System.out.println("삭제하고 싶은 게시물 번호 입력하세요");
+		int no = Integer.parseInt(sc.nextLine());
 		try {
-			brdSvc.add(dto);
+			brdSvc.delete(no);
+			System.out.println(no + "가 삭제되었습니다.");
 		} catch (BoardException e) {
-			System.out.println("게시물 등록 오류");
-		}
-	}
-
-	private void listBoard() {
-		System.out.println("[게시물 목록]");
-		List<BoardDto> list = null;
-
-		try {
-			list = brdSvc.list();
-			for (BoardDto dto : list) {
-				System.out.println(dto.getBoardNum() + "      " + dto.getBoardTitle() + "      " + dto.getBoardContent()
-						+ "      " + dto.getWriteTime() + "      " + dto.getStarRating() + "      " + dto.getMemberId()
-						+ "      " + dto.getCosNum());
-			}
-		} catch (BoardException e) {
-			System.out.println("*** 서버에 오류가 발생 ***");
+			System.out.println("---게시판 서버 오류---");
+		} catch (RecordNotFoundException e) {
+			System.out.println(no + "번호 게시판이 없습니다");
 		}
 
 	}
+
 
 	// Comment
 	// (10) 댓글 등록
@@ -500,13 +465,15 @@ public class pureViewUi {
 		CommentDto dto = new CommentDto(0, boardNum, memberId, content, null);
 		try {
 			cmtSvc.add(dto);
+			System.out.println("댓글을 등록하였습니다.");
 		} catch (CommentException e) {
-			System.out.println("댓글 등록 오류입니다.");
+			System.out.println("---댓글 등록 오류---");
 		}
 	}
 
 	// (11) 댓글 수정
 	private void updateComment() {
+		System.out.println("** 댓글 수정 **");
 		System.out.println("수정하고 싶은 댓글 번호를 입력하세요 >> ");
 		int no = Integer.parseInt(sc.nextLine());
 		System.out.println("새로운 내용을 입력하세요 >> ");
@@ -514,9 +481,10 @@ public class pureViewUi {
 		CommentDto dto = new CommentDto(no, 0, null, content, null);
 		try {
 			cmtSvc.update(dto);
+			System.out.println("댓글을 수정하였습니다.");
 		} catch (CommentException e) {
 			e.printStackTrace();
-			System.out.println("댓글 수정 오류입니다.");
+			System.out.println("---댓글 수정 오류---");
 		} catch (RecordNotFoundException e) {
 			System.out.println("댓글을 찾을 수 없습니다.");
 		}
@@ -524,12 +492,31 @@ public class pureViewUi {
 
 	// (12) 댓글 삭제
 	private void deleteComment() {
+		System.out.println("** 댓글 삭제 **");
 		System.out.println("삭제할 댓글 번호를 입력하세요 >> ");
 		int no = Integer.parseInt(sc.nextLine());
 		try {
 			cmtSvc.delete(no);
+			System.out.println("댓글을 삭제하였습니다.");
 		} catch (CommentException e) {
-			System.out.println("댓글 삭제 오류입니다.");
+			System.out.println("---댓글 삭제 오류---");
+		} catch (RecordNotFoundException e) {
+			System.out.println("댓글을 찾을 수 없습니다.");
+		}
+	}
+	
+	
+	// (13) 화장품 통계
+	private void cosmeticsStatistics() {
+		List<CosmeticDto> list;
+		System.out.println("** 화장품 통계 **");
+		try {
+			list = csmtSvc.statistics();
+			for (CosmeticDto dto : list) {
+				System.out.println(dto);
+			}
+		} catch (CommentException e) {
+			System.out.println("---댓글 삭제 오류---");
 		} catch (RecordNotFoundException e) {
 			System.out.println("댓글을 찾을 수 없습니다.");
 		}
