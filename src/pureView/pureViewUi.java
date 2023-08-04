@@ -1,6 +1,5 @@
 package pureView;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +16,6 @@ import pureView.dto.LoginDto;
 import pureView.dto.CosmeticDto;
 import pureView.exception.BoardException;
 import pureView.exception.CommentException;
-import pureView.exception.DuplicatedIdException;
 import pureView.exception.LogException;
 import pureView.service.CommentService;
 import pureView.service.CommentServiceImpl;
