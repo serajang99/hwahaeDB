@@ -29,7 +29,6 @@ import pureView.service.CosmeticServiceImpl;
 public class pureViewUi {
 	private Scanner sc;
 
-
 	private BoardService brdSvc; // 보드 서비스
 	private CommentService cmtSvc; // 내용 서비스
 	private MemberService mbSvc; // 회원 서비스
@@ -106,11 +105,6 @@ public class pureViewUi {
 	}
 
 
-
-
-
-
-
 	private void updateLog() {
 		System.out.println("** 로그아웃 **");
 		System.out.println("아이디를 입력하세요 : ");
@@ -121,6 +115,7 @@ public class pureViewUi {
 		try {
 			try {
 				logSvc.update(dto);
+				System.out.println("로그아웃 되었습니다.");
 			} catch (RecordNotFoundException e) {
 				
 			}
@@ -131,14 +126,16 @@ public class pureViewUi {
 	}
 
 
-
 	private void addLog() {
 		System.out.println("** 로그인 **");
 		System.out.println("아이디를 입력하세요 : ");
 		String id = sc.nextLine();		
 		
-		LoginDto dto = new LoginDto(0, null, null, id); 
-
+		LoginDto dto = new LoginDto(0, null, null, id);
+		System.out.println("비밀번호를 입력하세요 : ");
+		String pw = sc.nextLine();
+		System.out.println("로그인이 되셨습니다!");
+		
 		try {
 			logSvc.add(dto);
 		} catch (LogException e) {
@@ -147,9 +144,6 @@ public class pureViewUi {
 		}
 
 	}
-
-
-
 
 	private void cosmeticsList() {
 		System.out.println("[화장품 목록]");
@@ -249,7 +243,6 @@ public class pureViewUi {
 			try {
 				dto = mbSvc.findById(id);
 				System.out.println(mbSvc.findById(id));
-				System.out.println(dto);
 				System.out.println("** 상세보기 **");
 //				System.out.println("수정할 아이디 (없으면 엔터) : ");
 //				String id_2 = sc.nextLine();

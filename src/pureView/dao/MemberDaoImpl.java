@@ -148,14 +148,12 @@ public class MemberDaoImpl implements MemberDao{
 	    			String skin_type = rs.getString("skintype");	    			
 	    			int age = rs.getInt("age");
 	    			dto = new MemberDto(id, name, passwd, skin_type, age);
-	    			System.out.println(dto);
 	    		}
 	        } catch (ClassNotFoundException e) {
 	            throw new SQLException(e);
 	        } finally {
 	            JdbcUtil.close(pstmt, con);
 	        }
-			System.out.println(dto);
 	        return dto;
 		}
 		

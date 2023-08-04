@@ -11,7 +11,7 @@ public class JdbcUtil {
 	public static Connection connect() throws ClassNotFoundException, SQLException {
 		// 1. jdbc driver 로딩
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("Jdbc Driver 로딩 성공");
+//		System.out.println("Jdbc Driver 로딩 성공");
 
 		// 2. DBMS 연결
 		String url = "jdbc:oracle:thin:@10.3.1.105:1521/XE";
