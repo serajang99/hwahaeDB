@@ -9,7 +9,7 @@ import pureView.exception.RecordNotFoundException;
 
 public interface CommentService {
 
-	// (10) 댓글 등록 
+	// (10) 댓글 등록
 	public boolean add(CommentDto dto) throws CommentException;
 
 	// (7) 댓글 상세 보기
@@ -24,6 +24,7 @@ public interface CommentService {
 	// 댓글 갯수
 	public int count() throws CommentException;
 
+	// 게시글 번호에 맞는 댓글 리스트
 	public List<CommentDto> list(int no) throws BoardException;
 
 }

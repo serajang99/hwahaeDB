@@ -9,7 +9,7 @@ import pureView.exception.RecordNotFoundException;
 import pureView.dto.LoginDto;
 
 public interface LogService {
-	//등록
+	  //등록
 	  public void add(LoginDto m) throws LogException;
 	  //수정
 	  public void update_in(LoginDto m) throws LogException,RecordNotFoundException;
@@ -22,4 +22,5 @@ public interface LogService {
 	  public List<LoginDto> read() throws LogException;
 	  //검색
 	  public LoginDto findById(String id) throws LogException,RecordNotFoundException;;
+
 }

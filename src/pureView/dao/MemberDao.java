@@ -2,11 +2,10 @@
 package pureView.dao;
 
 import java.sql.SQLException;
-import java.util.List;
-
 
 import pureView.dto.MemberDto;
 import pureView.exception.DuplicatedIdException;
+
 import pureView.exception.MemberException;
 import pureView.exception.RecordNotFoundException;
 

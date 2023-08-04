@@ -55,7 +55,6 @@ public class BoardServiceImpl implements BoardService {
 		try {
 			boardDao.update(dto);
 		} catch (SQLException e) {
-//			e.printStackTrace();
 			throw new BoardException(e.getMessage());
 		} 
 		return true;

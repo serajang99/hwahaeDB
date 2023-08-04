@@ -4,10 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import pureView.dto.LoginDto;
-import pureView.exception.DuplicatedIdException;
-import pureView.exception.LogException;
 import pureView.exception.RecordNotFoundException;
-
 
 
 public interface LoginDao{
@@ -24,4 +21,6 @@ public interface LoginDao{
 	  public List<LoginDto> read() throws SQLException;
 	  //검색
 	  public LoginDto findById(String id) throws SQLException;
-	}
+	
+}
+

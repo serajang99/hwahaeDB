@@ -1,10 +1,7 @@
-
 package pureView.service;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import pureView.exception.MemberException;
+
 import pureView.exception.RecordNotFoundException;
 import pureView.dto.MemberDto;
 
@@ -21,3 +18,4 @@ public interface MemberService {
 	  public MemberDto findByPw(String id) throws MemberException;
 	  
 }
+
