@@ -49,7 +49,7 @@ public class CommentDaoImpl implements CommentDao {
 				throw new RecordNotFoundException(dto.getNum() + "는 없습니다");
 
 			conn = JdbcUtil.connect();
-			
+
 			String sql = "UPDATE CMNT set content = ?, commentTime = SYSDATE ";
 			sql += "WHERE num = ?";
 
@@ -101,8 +101,7 @@ public class CommentDaoImpl implements CommentDao {
 		List<CommentDto> result = new ArrayList<CommentDto>(); // ArrayList의 상위 타입인 List로 반환
 		try {
 			conn = JdbcUtil.connect();
-			String sql = "SELECT * FROM CMNT  "
-					+ " WHERE boardNum = ? order by num DESC ";
+			String sql = "SELECT * FROM CMNT  " + " WHERE boardNum = ? order by num DESC ";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, no);
@@ -132,12 +131,12 @@ public class CommentDaoImpl implements CommentDao {
 		CommentDto dto = null;
 		try {
 			conn = JdbcUtil.connect();
-			
+
 			String sql = "SELECT * FROM CMNT WHERE num = ? ";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, no);
-			
+
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) { // 조회 결과가 있다
 				int boardNum = rs.getInt("boardNum");

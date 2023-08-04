@@ -9,15 +9,21 @@ import pureView.exception.RecordNotFoundException;
 import pureView.dto.LoginDto;
 
 public interface LogService {
-	//µî·Ï
-	  public void add(LoginDto m) throws LogException;
-	  //¼öÁ¤
-	  public void update(LoginDto m) throws LogException,RecordNotFoundException;
-	  //»èÁ¦
-	  public void delete(String id) throws LogException;
-	  //°¹¼ö
-	  public int count() throws LogException;
-	  //¸ñ·Ï
-	  public List<LoginDto> read() throws LogException;
-	  //°Ë»ö
-	  public LoginDto findById(String id) throws LogException,RecordNotFoundException;}
+	// ï¿½ï¿½ï¿½
+	public void add(LoginDto m) throws LogException;
+
+	// ï¿½ï¿½ï¿½ï¿½
+	public void update(LoginDto m) throws LogException, RecordNotFoundException;
+
+	// ï¿½ï¿½ï¿½ï¿½
+	public void delete(String id) throws LogException;
+
+	// ï¿½ï¿½ï¿½ï¿½
+	public int count() throws LogException;
+
+	// ï¿½ï¿½ï¿½
+	public List<LoginDto> read() throws LogException;
+
+	// ï¿½Ë»ï¿½
+	public LoginDto findById(String id) throws LogException, RecordNotFoundException;
+}

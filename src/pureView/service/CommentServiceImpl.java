@@ -5,14 +5,13 @@ import java.util.List;
 
 import pureView.dao.CommentDao;
 import pureView.dao.CommentDaoImpl;
-import pureView.dto.BoardDto;
 import pureView.dto.CommentDto;
 import pureView.exception.BoardException;
 import pureView.exception.CommentException;
 import pureView.exception.RecordNotFoundException;
 
 public class CommentServiceImpl implements CommentService {
-	
+
 	private CommentDao commentDao = new CommentDaoImpl();
 
 	@Override
@@ -46,9 +45,10 @@ public class CommentServiceImpl implements CommentService {
 	public boolean delete(int no) throws CommentException, RecordNotFoundException {
 		try {
 			CommentDto dto = commentDao.findById(no);
-			if(dto == null) // 해당 번호가 없음
+			if (dto == null) // 해당 번호가 없음
 				throw new RecordNotFoundException();
-			else commentDao.delete(no);
+			else
+				commentDao.delete(no);
 		} catch (SQLException e) {
 			throw new CommentException(e.getMessage());
 		}
