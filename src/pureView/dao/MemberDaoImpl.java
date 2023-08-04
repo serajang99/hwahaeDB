@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import pureView.dto.MemberDto;
 import pureView.exception.DuplicatedIdException;
@@ -68,7 +66,6 @@ public class MemberDaoImpl implements MemberDao {
 		} catch (ClassNotFoundException e) {
 			throw new SQLException(e);
 		} finally {
-			// 7. 자원 반환
 			JdbcUtil.close(pstmt, con);
 		}
 
@@ -125,6 +122,7 @@ public class MemberDaoImpl implements MemberDao {
 		} finally {
 			JdbcUtil.close(pstmt, con);
 		}
+
 		System.out.println(dto);
 		return dto;
 	}
