@@ -9,21 +9,18 @@ import pureView.exception.RecordNotFoundException;
 import pureView.dto.LoginDto;
 
 public interface LogService {
-	// ���
-	public void add(LoginDto m) throws LogException;
+	  //등록
+	  public void add(LoginDto m) throws LogException;
+	  //수정
+	  public void update_in(LoginDto m) throws LogException,RecordNotFoundException;
+	  public void update_out(LoginDto m) throws LogException,RecordNotFoundException;
+	  //삭제
+	  public void delete(String id) throws LogException;
+	  //갯수
+	  public int count() throws LogException;
+	  //목록
+	  public List<LoginDto> read() throws LogException;
+	  //검색
+	  public LoginDto findById(String id) throws LogException,RecordNotFoundException;;
 
-	// ����
-	public void update(LoginDto m) throws LogException, RecordNotFoundException;
-
-	// ����
-	public void delete(String id) throws LogException;
-
-	// ����
-	public int count() throws LogException;
-
-	// ���
-	public List<LoginDto> read() throws LogException;
-
-	// �˻�
-	public LoginDto findById(String id) throws LogException, RecordNotFoundException;
 }

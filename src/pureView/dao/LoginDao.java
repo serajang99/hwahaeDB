@@ -11,7 +11,9 @@ public interface LoginDao {
 	public void add(LoginDto m) throws SQLException;
 
 	// 수정
-	public void update(LoginDto m) throws SQLException, RecordNotFoundException;
+	public void update_in(LoginDto m) throws SQLException, RecordNotFoundException;
+
+	public void update_out(LoginDto m) throws SQLException, RecordNotFoundException;
 
 	// 삭제
 	public void delete(String id) throws SQLException, RecordNotFoundException;
@@ -24,4 +26,5 @@ public interface LoginDao {
 
 	// 검색
 	public LoginDto findById(String id) throws SQLException;
+
 }

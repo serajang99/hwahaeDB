@@ -10,4 +10,7 @@ public interface CosmeticService {
 
 	// 화장품 상세
 	public CosmeticDto detail(String search);
+
+	// 화장품 통계
+	public List<CosmeticDto> statistics();
 }

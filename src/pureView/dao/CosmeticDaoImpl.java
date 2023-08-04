@@ -85,4 +85,9 @@ public class CosmeticDaoImpl implements CosmeticDao {
 		return dto;
 	}
 
+	@Override
+	public List<CosmeticDto> statistics() {
+		return null;
+	}
+
 }
