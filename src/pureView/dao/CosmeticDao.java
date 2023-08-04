@@ -1,5 +1,6 @@
 package pureView.dao;
 
+import pureView.dto.CosStatistic;
 import pureView.dto.CosmeticDto;
 
 import java.sql.SQLException;
@@ -13,5 +14,5 @@ public interface CosmeticDao {
 	public CosmeticDto findByName(String search) throws SQLException;
 
 	// 통계
-	public List<CosmeticDto> statistics() throws SQLException;
+	public List<CosStatistic> statistics() throws SQLException;
 }

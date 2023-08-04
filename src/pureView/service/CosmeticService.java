@@ -2,6 +2,7 @@ package pureView.service;
 
 import java.util.List;
 
+import pureView.dto.CosStatistic;
 import pureView.dto.CosmeticDto;
 
 public interface CosmeticService {
@@ -12,5 +13,5 @@ public interface CosmeticService {
 	public CosmeticDto detail(String search);
 
 	// 화장품 통계
-	public List<CosmeticDto> statistics();
+	public List<CosStatistic> statistics();
 }
