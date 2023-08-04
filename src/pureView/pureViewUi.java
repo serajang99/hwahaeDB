@@ -157,7 +157,6 @@ public class pureViewUi {
 			passwd_2 = passwd_2.length() == 0 ? dto.getPasswd() : passwd_2;
 			System.out.println("수정할 피부타입 (건성, 지성, 복합성 中 1, 없으면 엔터) : ");
 			String skin_type_2 = sc.nextLine();
-			System.out.println(skin_type_2);
 			if (skin_type_2.equals("")) {
 				skin_type_2 = dto.getSkintype();
 			}
