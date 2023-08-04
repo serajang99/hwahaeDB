@@ -40,7 +40,7 @@ public class CosStatistic {
 
 	@Override
 	public String toString() {
-		return "CosStatistic [category=" + category + ", count=" + count + ", avgPrice=" + avgPrice + "]";
+		return "카테고리: " + category + ", 갯수: " + count + ", 평균 가격: " + avgPrice;
 	}
 
 }

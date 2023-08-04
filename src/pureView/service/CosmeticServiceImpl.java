@@ -5,6 +5,7 @@ import java.util.List;
 
 import pureView.dao.CosmeticDao;
 import pureView.dao.CosmeticDaoImpl;
+import pureView.dto.CosStatistic;
 import pureView.dto.CosmeticDto;
 
 public class CosmeticServiceImpl implements CosmeticService {
@@ -34,8 +35,8 @@ public class CosmeticServiceImpl implements CosmeticService {
 	}
 
 	@Override
-	public List<CosmeticDto> statistics() {
-		List<CosmeticDto> list = null;
+	public List<CosStatistic> statistics() {
+		List<CosStatistic> list = null;
 		try {
 			list = cosmeticDao.statistics();
 		} catch (SQLException e) {

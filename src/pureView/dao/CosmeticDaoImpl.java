@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
+import pureView.dto.CosStatistic;
 import pureView.dto.CosmeticDto;
 import pureView.util.JdbcUtil;
 
@@ -83,23 +84,23 @@ public class CosmeticDaoImpl implements CosmeticDao {
 	}
 
 	@Override
-	public List<CosmeticDto> statistics() throws SQLException {
-		List<CosmeticDto> result = new ArrayList<CosmeticDto>();
+	public List<CosStatistic> statistics() throws SQLException {
+		List<CosStatistic> result = new ArrayList<CosStatistic>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
 			con = JdbcUtil.connect();
 			String sql;
-			sql = "SELECT category, COUNT(*), AVG(price) FROM COSMETICS GROUP BY category";
+			sql = "SELECT category, COUNT(*), ROUND(AVG(price),-3) as avg FROM COSMETICS GROUP BY category";
 			pstmt = con.prepareStatement(sql);
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {// 조회결과가 있다
 				String category = rs.getString("category");
 				int count = rs.getInt("COUNT(*)");
-				int avgPrice = rs.getInt("AVG(price)");
-				
-//				result.add(dto);
+				int avgPrice = rs.getInt("avg");
+				CosStatistic dto = new CosStatistic(category, count, avgPrice);
+				result.add(dto);
 			}
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new SQLException(e);

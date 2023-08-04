@@ -12,6 +12,7 @@ import pureView.dto.BoardDto;
 import pureView.service.BoardService;
 import pureView.service.BoardServiceImpl;
 import pureView.dto.CommentDto;
+import pureView.dto.CosStatistic;
 import pureView.dto.LoginDto;
 import pureView.dto.CosmeticDto;
 import pureView.exception.BoardException;
@@ -504,11 +505,11 @@ public class pureViewUi {
 
 	// (13) 화장품 통계
 	private void cosmeticsStatistics() {
-		List<CosmeticDto> list;
+		List<CosStatistic> list;
 		System.out.println("** 화장품 통계 **");
 
 		list = csmtSvc.statistics();
-		for (CosmeticDto dto : list) {
+		for (CosStatistic dto : list) {
 			System.out.println(dto);
 		}
 
