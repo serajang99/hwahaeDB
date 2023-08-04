@@ -10,7 +10,7 @@ import pureView.dto.CosmeticDto;
 public class CosmeticServiceImpl implements CosmeticService {
 
 	private CosmeticDao cosmeticDao = new CosmeticDaoImpl();
-	
+
 	@Override
 	public List<CosmeticDto> list(String cate, String ob) {
 		List<CosmeticDto> list = null;
@@ -21,7 +21,7 @@ public class CosmeticServiceImpl implements CosmeticService {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public CosmeticDto detail(String search) {
 		CosmeticDto dto = null;

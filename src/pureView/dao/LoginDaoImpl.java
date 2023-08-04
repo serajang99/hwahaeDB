@@ -22,43 +22,27 @@ import pureView.exception.RecordNotFoundException;
 import pureView.util.JdbcUtil;
 public class LoginDaoImpl implements LoginDao {
 
-	// 메서드 오버라이딩
-	// 예외는 부모보다 개수가 같거나 작앙함
-	// 예외 타입은 부모보다 같거나 자식 타입
 	@Override
 	public void add(LoginDto m) throws SQLException {
-		// DBMS 연결
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			// 등록 여부 검사
 			if(findById(m.getMember_id())!=null)
 				throw new SQLException(m.getMember_id()+"는 없는 아이디입니다.");
 			con = JdbcUtil.connect();
-			// 3. SQL 작성
-//			String query = "SELECT sysdate as current_date, TO_CHAR(sysdate, 'HH24:MI:SS') as current_time FROM dual";
 
 			String sql = "INSERT INTO LOG(member_id, login_date, logout_date)";
 			sql += "VALUES(?,TO_CHAR(SYSDATE,'yyyy-mm-dd'),?) ";
-            pstmt = con.prepareStatement(sql);
-			// 4. Statement 생성
-			// 메서드 명은 prepare, 반환형은 prepared
-
-			
-			// 5. 필요한 데이터 설정 
+            
+			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1,m.getMember_id());
 			pstmt.setString(2,"null");
-			// 6. SQL 전송 및 결과 수신 
-			// DML 전송 : executeUpdate() : int 타입 반환
-			// SELECT 전송 : executeQuery() : ResultSet 타입 반환
 			
-			int cnt = pstmt.executeUpdate(); // 몇 행에 대해 수행했는지 반환
+			int cnt = pstmt.executeUpdate(); 
 		} catch (ClassNotFoundException e) {
-			// Exception을 감싸는 새로운 Exception을 만든다.
 			throw new SQLException(e);
 		} 
 		  finally {
-			// 7. 자원 반환
 			JdbcUtil.close(pstmt,con);
 		}
 	}
@@ -67,7 +51,6 @@ public class LoginDaoImpl implements LoginDao {
 	@Override
 	public void update(LoginDto m) throws SQLException, RecordNotFoundException {
 		
-		// DBMS 연결
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
