@@ -293,9 +293,6 @@ public class pureViewUi {
 	}
 	
 	
-	
-	
-	
 	private void deleteBoard() {
 		System.out.println("삭제하고 싶은 게시물 번호 입력하세요");
 		int no = Integer.parseInt(sc.nextLine());
